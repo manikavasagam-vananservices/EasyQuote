@@ -97,4 +97,14 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
             ex.printStackTrace();
         }
     }
+
+    public void tearDown() {
+
+        driver.quit();
+    }
+
+    public void waitingTime(int wait) {
+
+        try{TimeUnit.SECONDS.sleep(wait);} catch (InterruptedException ex) {ex.printStackTrace();}
+    }
 }

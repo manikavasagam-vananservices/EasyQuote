@@ -1,15 +1,138 @@
 package com.vanan.POM;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class EasyQuotePage extends AccessingElement implements EasyQuoteElements {
 
     private WebDriver driver;
     private JavascriptExecutor js;
+
+    @FindBy(id = emailId)
+    private WebElement emailIdElement;
+    @FindBy(id = firstName)
+    private WebElement firstNameElement;
+    @FindBy(id = lastName)
+    private WebElement lastNameElement;
+    @FindBy(id = phoneNumber)
+    private WebElement phoneNumberElement;
+    @FindBy(id = country)
+    private WebElement countryElement;
+    @FindBy(xpath = chat)
+    private WebElement chatElement;
+    @FindBy(xpath = call)
+    private WebElement callElement;
+
+    @FindBy(id = purpose)
+    private WebElement purposeElement;
+    @FindBy(id = content)
+    private WebElement contentElement;
+    @FindBy(name = website)
+    private WebElement websiteElement;
+    @FindBy(xpath = individual)
+    private WebElement individualElement;
+    @FindBy(xpath = company)
+    private WebElement companyElement;
+    @FindBy(xpath = callYes)
+    private WebElement callYesElement;
+    @FindBy(xpath = callNo)
+    private WebElement callNoElement;
+    @FindBy(xpath = estimate)
+    private WebElement estimateElement;
+    @FindBy(xpath = uploadFiles)
+    private WebElement uploadFilesElement;
+    @FindBy(xpath = addFiles)
+    private WebElement addFilesElement;
+    @FindBy(xpath = uploadNewFiles)
+    private WebElement uploadNewFilesElement;
+
+    @FindBy(xpath = fileTableRow)
+    private List<WebElement> fileTableRowElements;
+
+    @FindBy(name = fileSpecifications)
+    private WebElement fileSpecificationsElement;
+    @FindBy(xpath = notarization)
+    private WebElement notarizationElement;
+    @FindBy(xpath = mailing)
+    private WebElement mailingElement;
+    @FindBy(xpath = speakerCount)
+    private WebElement speakerCountElement;
+    @FindBy(xpath = verbatim)
+    private WebElement verbatimElement;
+    @FindBy(xpath = timecode)
+    private WebElement timecodeElement;
+    @FindBy(xpath = nativeEmt)
+    private WebElement nativeEmtA6Element;
+    @FindBy(xpath = qualityCheck)
+    private WebElement qualityCheckElement;
+    @FindBy(xpath = otherServices)
+    private WebElement otherServicesElement;
+    @FindBy(xpath = certificate)
+    private WebElement certificateElement;
+    @FindBy(name = transcriptionYes)
+    private WebElement transcriptionYesElement;
+    @FindBy(xpath = transcriptionNo)
+    private WebElement transcriptionNoElement;
+    @FindBy(xpath = standalone)
+    private WebElement standaloneElement;
+    @FindBy(xpath = embeded)
+    private WebElement embededElement;
+    @FindBy(xpath = standaloneFileFormat)
+    private WebElement standaloneFileFormatElement;
+    @FindBy(xpath = audience)
+    private WebElement audienceElement;
+    @FindBy(xpath = needTranslation)
+    private WebElement needTranslationElement;
+    @FindBy(xpath = needScript)
+    private WebElement needScriptElement;
+    @FindBy(xpath = premiumCustomer)
+    private WebElement premiumCustomerElement;
+    @FindBy(xpath = rmCallYes)
+    private WebElement rmCallYesElement;
+    @FindBy(xpath = rmCallNo)
+    private WebElement rmCallNoElement;
+    @FindBy(xpath = keyword)
+    private WebElement keywordElement;
+    @FindBy(xpath = vocYes)
+    private WebElement vocYesElement;
+    @FindBy(name = vocNo)
+    private WebElement vocNoElement;
+    @FindBy(xpath = followupDate)
+    private WebElement followupDateElement;
+    @FindBy(xpath = followupMedium)
+    private WebElement followupMediumElement;
+    @FindBy(xpath = discountId)
+    private WebElement discountIdElement;
+    @FindBy(xpath = discountPercentage)
+    private WebElement discountPercentageElement;
+    @FindBy(xpath = specialRequest)
+    private WebElement specialRequestElement;
+    @FindBy(xpath = orderValue)
+    private WebElement orderValueElement;
+    @FindBy(xpath = basePrice)
+    private WebElement basePriceElement;
+    @FindBy(xpath = transcriptionTranslationPrice)
+    private WebElement transcriptionTranslationPriceElement;
+    @FindBy(xpath = discountPriceDisplay)
+    private WebElement discountPriceDisplayElement;
+    @FindBy(name = discountPercent)
+    private WebElement discountPercentElement;
+    @FindBy(xpath = subTotalPrice)
+    private WebElement subTotalPriceElement;
+    @FindBy(xpath = transactionFeePrice)
+    private WebElement transactionFeePriceElement;
+    @FindBy(xpath = orderTotal)
+    private WebElement orderTotalElement;
+    @FindBy(xpath = saveQuote)
+    private WebElement saveQuoteElement;
+    @FindBy(xpath = sendQuote)
+    private WebElement sendQuoteElement;
 
     public EasyQuotePage(WebDriver driver) {
 
@@ -17,189 +140,6 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
     }
-
-    @FindBy(id = emailId)
-    private WebElement emailIdElement;
-
-    @FindBy(id = firstName)
-    private WebElement firstNameElement;
-
-    @FindBy(id = lastName)
-    private WebElement lastNameElement;
-
-    @FindBy(id = phoneNumber)
-    private WebElement phoneNumberElement;
-
-    @FindBy(id = country)
-    private WebElement countryElement;
-
-    @FindBy(xpath = chat)
-    private WebElement chatElement;
-
-    @FindBy(xpath = call)
-    private WebElement callElement;
-
-    @FindBy(xpath = serviceTranscription)
-    private WebElement serviceTranscriptionElement;
-
-    @FindBy(xpath = serviceTranslation)
-    private WebElement serviceTranslationElement;
-
-    @FindBy(xpath = serviceCaptioning)
-    private WebElement serviceCaptioningElement;
-
-    @FindBy(xpath = serviceTyping)
-    private WebElement serviceTypingElement;
-
-    @FindBy(xpath = serviceOther)
-    private WebElement serviceOtherElement;
-
-    @FindBy(xpath = purpose)
-    private WebElement purposeElement;
-
-    @FindBy(xpath = content)
-    private WebElement contentElement;
-
-    @FindBy(name = website)
-    private WebElement websiteElement;
-
-    @FindBy(xpath = individual)
-    private WebElement individualElement;
-
-    @FindBy(xpath = company)
-    private WebElement companyElement;
-
-    @FindBy(xpath = callYes)
-    private WebElement callYesElement;
-
-    @FindBy(xpath = callNo)
-    private WebElement callNoElement;
-
-    @FindBy(xpath = estimate)
-    private WebElement estimateElement;
-
-    @FindBy(xpath = uploadFiles)
-    private WebElement uploadFilesElement;
-
-    @FindBy(xpath = addFiles)
-    private WebElement addFilesElement;
-
-    @FindBy(xpath = uploadNewFiles)
-    private WebElement uploadNewFilesElement;
-
-    @FindBy(name = fileSpecifications)
-    private WebElement fileSpecificationsElement;
-
-    @FindBy(xpath = notarization)
-    private WebElement notarizationElement;
-
-    @FindBy(xpath = mailing)
-    private WebElement mailingElement;
-
-    @FindBy(xpath = speakerCount)
-    private WebElement speakerCountElement;
-
-    @FindBy(xpath = verbatim)
-    private WebElement verbatimElement;
-
-    @FindBy(xpath = timecode)
-    private WebElement timecodeElement;
-
-    @FindBy(xpath = nativeEmt)
-    private WebElement nativeEmtA6Element;
-
-    @FindBy(xpath = qualityCheck)
-    private WebElement qualityCheckElement;
-
-    @FindBy(xpath = otherServices)
-    private WebElement otherServicesElement;
-
-    @FindBy(xpath = certificate)
-    private WebElement certificateElement;
-
-    @FindBy(name = transcriptionYes)
-    private WebElement transcriptionYesElement;
-
-    @FindBy(xpath = transcriptionNo)
-    private WebElement transcriptionNoElement;
-
-    @FindBy(xpath = standalone)
-    private WebElement standaloneElement;
-
-    @FindBy(xpath = embeded)
-    private WebElement embededElement;
-
-    @FindBy(xpath = standaloneFileFormat)
-    private WebElement standaloneFileFormatElement;
-
-    @FindBy(xpath = audience)
-    private WebElement audienceElement;
-
-    @FindBy(xpath = needTranslation)
-    private WebElement needTranslationElement;
-
-    @FindBy(xpath = needScript)
-    private WebElement needScriptElement;
-
-    @FindBy(xpath = premiumCustomer)
-    private WebElement premiumCustomerElement;
-
-    @FindBy(xpath = rmCallYes)
-    private WebElement rmCallYesElement;
-
-    @FindBy(xpath = rmCallNo)
-    private WebElement rmCallNoElement;
-
-    @FindBy(xpath = keyword)
-    private WebElement keywordElement;
-
-    @FindBy(xpath = vocYes)
-    private WebElement vocYesElement;
-
-    @FindBy(name = vocNo)
-    private WebElement vocNoElement;
-
-    @FindBy(xpath = followupDate)
-    private WebElement followupDateElement;
-
-    @FindBy(xpath = followupMedium)
-    private WebElement followupMediumElement;
-
-    @FindBy(xpath = discountId)
-    private WebElement discountIdElement;
-
-    @FindBy(xpath = discountPercentage)
-    private WebElement discountPercentageElement;
-
-    @FindBy(xpath = specialRequest)
-    private WebElement specialRequestElement;
-
-    @FindBy(xpath = orderValue)
-    private WebElement orderValueElement;
-
-    @FindBy(xpath = basePrice)
-    private WebElement basePriceElement;
-
-    @FindBy(xpath = discountPriceDisplay)
-    private WebElement discountPriceDisplayElement;
-
-    @FindBy(name = discountPercent)
-    private WebElement discountPercentElement;
-
-    @FindBy(xpath = subTotalPrice)
-    private WebElement subTotalPriceElement;
-
-    @FindBy(xpath = transactionFeePrice)
-    private WebElement transactionFeePriceElement;
-
-    @FindBy(xpath = orderTotal)
-    private WebElement orderTotalElement;
-
-    @FindBy(xpath = saveQuote)
-    private WebElement saveQuoteElement;
-
-    @FindBy(xpath = sendQuote)
-    private WebElement sendQuoteElement;
 
     public void enterEmailId(String email) {
 
@@ -238,27 +178,27 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
 
     public void clickTranslation() {
 
-        clickElement(serviceTranslationElement);
+       clickJSElement(js, serviceTranslation);
     }
 
     public void clickTranscription() {
 
-        clickElement(serviceTranscriptionElement);
+        clickJSElement(js, serviceTranscription);
     }
 
     public void clickCaptioning() {
 
-        clickElement(serviceCaptioningElement);
+        clickJSElement(js, serviceCaptioning);
     }
 
     public void clickTyping() {
 
-        clickElement(serviceTypingElement);
+        clickJSElement(js, serviceTyping);
     }
 
     public void clickOther() {
 
-        clickElement(serviceOtherElement);
+        clickJSElement(js, serviceOther);
     }
 
     public void clickIndividual() {
@@ -321,6 +261,51 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         enterTestBoxValuesWithClear(fileSpecificationsElement, message);
     }
 
+    public boolean setMultipleFileDetails(String fileTypes, String fileNames,
+                                          String sourceLanguages, String targetLanguages, String pageMinutess,
+                                          String costs, String totals, String fileCommnetss, int fileLocations) {
+        int rowCount = fileTableRowElements.size();
+        boolean status = false;
+        for (int i = 1; i <= rowCount; i++) {
+            if (i == fileLocations) {
+                setSingleFileDetail(fileTypes, fileNames,
+                        sourceLanguages, targetLanguages, pageMinutess,
+                        costs, totals, fileCommnetss, i);
+                break;
+            }
+        }
+        return status;
+    }
+
+    public void setSingleFileDetail(String fileTypes, String fileNames,
+                                    String sourceLanguages, String targetLanguages, String pageMinutess,
+                                    String costs, String totals, String fileCommnetss, int i) {
+        if (!fileTypes.equals("")) {
+            selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + fileType)), fileTypes);
+            if (isAlertPresent(driver)) {
+                cancelAlert(driver);
+            }
+        }
+        enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + fileName)), fileNames);
+        if (!sourceLanguages.equals("")) {
+            selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + sourceLanguage)), sourceLanguages);
+        }
+        if (!targetLanguages.equals("")) {
+            selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + targetLanguage)), targetLanguages);
+            if (isAlertPresent(driver)) {
+                cancelAlert(driver);
+            }
+        }
+        enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + pagesMinutes)), pageMinutess);
+        if (!costs.equals("")) {
+            enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + costPerPageMinute)), costs);
+        }
+        if (!totals.equals("")) {
+            enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + totalCost)), totals);
+        }
+        enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + comments)), fileCommnetss);
+    }
+
     public void selectPremiumCustomer(String message) {
 
         selectDropDownByVText(premiumCustomerElement, message);
@@ -381,29 +366,39 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         enterTestBoxValuesWithClear(specialRequestElement, message);
     }
 
-    public String getOrderValue() {
+    public double getOrderValue() {
 
-        return getElementValues(orderValueElement);
+        return convertAndGetValue(orderValueElement);
     }
 
-    public String getDiscountValue() {
+    public double getBasePriceValue() {
 
-        return getElementValues(discountPriceDisplayElement);
+        return convertAndGetValue(basePriceElement);
     }
 
-    public String getSubTotalPriceValue() {
+    public double getTranslationTranscriptionPriceValue() {
 
-        return getElementValues(subTotalPriceElement);
+        return convertAndGetValue(transcriptionTranslationPriceElement);
     }
 
-    public String getTransactionPriceValue() {
+    public double getDiscountValue() {
 
-        return getElementValues(transactionFeePriceElement);
+        return convertAndGetValue(discountPriceDisplayElement);
     }
 
-    public String getOrderTotalValue() {
+    public double getSubTotalPriceValue() {
 
-        return getElementValues(orderTotalElement);
+        return convertAndGetValue(subTotalPriceElement);
+    }
+
+    public double getTransactionPriceValue() {
+
+        return convertAndGetValue(transactionFeePriceElement);
+    }
+
+    public double getOrderTotalValue() {
+
+        return convertAndGetValue(orderTotalElement);
     }
 
     public void clickSaveQuote() {
@@ -414,5 +409,14 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
     public void clickSentQuote() {
 
         clickElement(sendQuoteElement);
+    }
+
+    public double convertAndGetValue(WebElement element) {
+
+        if (element.isDisplayed()) {
+            return Double.parseDouble(getElementValues(element));
+        } else {
+            return 0;
+        }
     }
 }

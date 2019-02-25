@@ -16,11 +16,11 @@ public interface EasyQuoteElements {
      */
     public String chat = "//*[@id='type-chat']";
     public String call = "//*[@id='type-call']";
-    public String serviceTranscription = "//*[@id='service-transcriptions']";
-    public String serviceTranslation = "//*[@id='service-translation']";
-    public String serviceCaptioning = "//*[@id='service-captioning']";
-    public String serviceTyping = "//*[@id='service-typing']";
-    public String serviceOther = "//*[@id='service-others']";
+    public String serviceTranscription = "service-transcriptions";
+    public String serviceTranslation = "service-translation";
+    public String serviceCaptioning = "service-captioning";
+    public String serviceTyping = "service-typing";
+    public String serviceOther = "service-others";
     public String purpose = "service-purpose";
     public String content = "purpose-content";
     public String website = "source_id";
@@ -44,7 +44,7 @@ public interface EasyQuoteElements {
     public String fileTableRow = "//table[@id='info']//tbody/tr";
     public String removeBtn = "//td[1]//a[@class='remove-row']";
     public String fileType = "//td[2]//select[contains(@name,'file_type')]";
-        public String fileName = "//td[3]//input[contains(@name,'filename')]";
+    public String fileName = "//td[3]//input[contains(@name,'filename')]";
     public String sourceLanguage = "//td[4]//select[contains(@name,'source_lang')]";
     public String targetLanguage = "//td[5]//select[contains(@name,'target_lang')]";
     public String pagesMinutes = "//td[6]//input[contains(@name,'page_length')]";
@@ -101,6 +101,7 @@ public interface EasyQuoteElements {
      */
     public String orderValue = "//h5//span[@class='orderValue']";
     public String basePrice = "//span[@class='basePrice']";
+    public String transcriptionTranslationPrice = "//span[@id='transcriptionTranslationPrice']";
     public String discountPriceDisplay = "//*[@class='discountPriceDisplay']";
     public String discountPercent = "//*[@class='discount-percent']";
     public String subTotalPrice = "//*[@id='subTotalPrice']";

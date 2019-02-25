@@ -20,5 +20,5 @@ public interface BrowserConfig {
 
     String SAFARI = "safari";
 
-    int IMPLICIT_WAITING_TIME = 120;
+    int IMPLICIT_WAITING_TIME = 20;
 }
