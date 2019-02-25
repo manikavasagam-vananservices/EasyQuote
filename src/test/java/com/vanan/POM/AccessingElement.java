@@ -1,9 +1,6 @@
 package com.vanan.POM;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 
 import java.awt.*;
@@ -36,6 +33,11 @@ public class AccessingElement {
     public void clickElement(WebElement element) {
 
         element.click();
+    }
+
+    public void clickJSElement(JavascriptExecutor javascriptExecutor, String element) {
+
+        javascriptExecutor.executeScript("$('#" + element + "').click();");
     }
 
     public void selectDropDownByVText(WebElement element, String content) {
@@ -109,4 +111,21 @@ public class AccessingElement {
         driver.navigate().refresh();
     }
 
+
+    public boolean isAlertPresent(WebDriver driver) {
+        try {
+            driver.switchTo().alert();
+            return true;
+        } catch (NoAlertPresentException Ex) {
+            return false;
+        }
+    }
+
+    public void acceptAlert(WebDriver driver) {
+        driver.switchTo().alert().accept();
+    }
+
+    public void cancelAlert(WebDriver driver) {
+        driver.switchTo().alert().dismiss();
+    }
 }
