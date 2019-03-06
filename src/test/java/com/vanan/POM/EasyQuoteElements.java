@@ -54,23 +54,23 @@ public interface EasyQuoteElements {
     /**
      * Additional Services
      */
-    public String notarization = "//*[@id='notarization']";
-    public String mailing = "//*[@id='mailing']";
-    public String speakerCount = "//*[@id='speakerCount']";
-    public String verbatim = "//*[@id='verbatim']";
-    public String timecode = "//*[@id='timecode']";
-    public String nativeEmt = "//*[@id='native']";
-    public String qualityCheck = "//*[@id='qualityCheck']";
-    public String otherServices = "//*[@id='otherServices-selectized']";
-    public String certificate = "//*[@id='certificate']";
-    public String transcriptionYes = "//*[@id='transcription-yes']";
-    public String transcriptionNo = "//*[@id='transcription-no']";
-    public String standalone = "//*[@id='standalone']";
-    public String embeded = "//*[@id='embeded']";
-    public String standaloneFileFormat = "//*[@id='standalone-file-format']";
-    public String audience = "//*[@id='audience']";
-    public String needTranslation = "//*[@id='need-translation']";
-    public String needScript = "//*[@id='need-script']";
+    public String notarization = "notarization";
+    public String mailing = "mailing";
+    public String speakerCount = "speakerCount";
+    public String verbatim = "verbatim";
+    public String timecode = "timecode";
+    public String nativeEmt = "native";
+    public String qualityCheck = "qualityCheck";
+    public String otherServices = "otherServices-selectized";
+    public String certificate = "certificate";
+    public String transcriptionYes = "transcription-yes";
+    public String transcriptionNo = "transcription-no";
+    public String standalone = "standalone";
+    public String embeded = "embeded";
+    public String standaloneFileFormat = "standalone-file-format";
+    public String audience = "audience";
+    public String needTranslation = "need-translation";
+    public String needScript = "need-script";
 
     /**
      * Turnaround Time [EST]
@@ -101,6 +101,7 @@ public interface EasyQuoteElements {
      */
     public String orderValue = "//h5//span[@class='orderValue']";
     public String basePrice = "//span[@class='basePrice']";
+    public String additionalServicesTotalPrice = "//span[@id='additionalServicesTotalPrice']";
     public String transcriptionTranslationPrice = "//span[@id='transcriptionTranslationPrice']";
     public String discountPriceDisplay = "//*[@class='discountPriceDisplay']";
     public String discountPercent = "//*[@class='discount-percent']";
@@ -110,4 +111,31 @@ public interface EasyQuoteElements {
     public String saveQuote = "//*[@name='submit_save']";
     public String sendQuote = "//*[@name='submit_save_send']";
 
+    /**
+     * Mailing and notary element
+     */
+    public String mFirstName = "address-first-name";
+    public String mLastName = "address-last-name";
+    public String mAddress1 = "address-1";
+    public String mAddress2 = "address-2";
+    public String mState = "state";
+    public String mCity = "city";
+    public String mZipCode = "zipcode";
+    public String mMailingOption = "mailing-option";
+    public String mOkBtn = "save-mailing-address";
+    public String mCancelBtn = "close-modal";
+
+    /**
+     * Certificate
+     */
+    public String certificateSubject = "certificate-subject";
+    public String cOkBtn = "save-certificate-subject";
+    public String cCancelBtn = "close-certificate-subject";
+
+    /**
+     * Pop up panel
+     */
+    public String popup = "//div[@class='swal-modal']";
+    public String popupYes = "//button[contains(text(),'Yes')]";
+    public String popupNo = "//button[contains(text(),'No')]";
 }
