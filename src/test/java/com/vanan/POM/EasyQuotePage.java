@@ -117,6 +117,8 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
     private WebElement orderValueElement;
     @FindBy(xpath = basePrice)
     private WebElement basePriceElement;
+    @FindBy(xpath = additionalServicesTotalPrice)
+    private WebElement additionalServicesTotalPriceElement;
     @FindBy(xpath = transcriptionTranslationPrice)
     private WebElement transcriptionTranslationPriceElement;
     @FindBy(xpath = discountPriceDisplay)
@@ -133,6 +135,43 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
     private WebElement saveQuoteElement;
     @FindBy(xpath = sendQuote)
     private WebElement sendQuoteElement;
+
+
+    /**
+     * Mailing Address
+     */
+    @FindBy(id = mFirstName)
+    private WebElement mFirstNameElement;
+    @FindBy(id = mLastName)
+    private WebElement mLastNameElement;
+    @FindBy(id = mAddress1)
+    private WebElement mAddress1Element;
+    @FindBy(id = mAddress2)
+    private WebElement mAddress2Element;
+    @FindBy(id = mState)
+    private WebElement mStateElement;
+    @FindBy(id = mCity)
+    private WebElement mCityElement;
+    @FindBy(id = mZipCode)
+    private WebElement mZipCodeElement;
+    @FindBy(id = mMailingOption)
+    private WebElement mMailingOptionElement;
+    @FindBy(id = mOkBtn)
+    private WebElement mOkBtnElement;
+    @FindBy(id = mCancelBtn)
+    private WebElement mCancelBtnElement;
+
+
+    /**
+     * Certificate
+     */
+    @FindBy(id = certificateSubject)
+    private WebElement certificateSubjectElement;
+    @FindBy(id = cOkBtn)
+    private WebElement cOkBtnElement;
+    @FindBy(id = cCancelBtn)
+    private WebElement cCancelBtnElement;
+
 
     public EasyQuotePage(WebDriver driver) {
 
@@ -178,7 +217,7 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
 
     public void clickTranslation() {
 
-       clickJSElement(js, serviceTranslation);
+        clickJSElement(js, serviceTranslation);
     }
 
     public void clickTranscription() {
@@ -261,16 +300,47 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         enterTestBoxValuesWithClear(fileSpecificationsElement, message);
     }
 
+    public void clickNotarization() {
+
+        clickJSElement(js, notarization);
+    }
+
+    public void clickQualityCheck() {
+
+        clickJSElement(js, qualityCheck);
+    }
+
+    public void clickCertificate() {
+
+        clickJSElement(js, certificate);
+    }
+
+    public void clickVerbatim() {
+
+        clickJSElement(js, verbatim);
+    }
+
+    public void clickUSTranscriber() {
+
+        clickJSElement(js, nativeEmt);
+    }
+
+
+    public void clickMailingOption() {
+
+        clickJSElement(js, mailing);
+    }
+
     public boolean setMultipleFileDetails(String fileTypes, String fileNames,
                                           String sourceLanguages, String targetLanguages, String pageMinutess,
-                                          String costs, String totals, String fileCommnetss, int fileLocations) {
+                                          String costs, String totals, String fileCommnetss, int fileLocations, int flag) {
         int rowCount = fileTableRowElements.size();
         boolean status = false;
         for (int i = 1; i <= rowCount; i++) {
             if (i == fileLocations) {
                 setSingleFileDetail(fileTypes, fileNames,
                         sourceLanguages, targetLanguages, pageMinutess,
-                        costs, totals, fileCommnetss, i);
+                        costs, totals, fileCommnetss, i,flag);
                 break;
             }
         }
@@ -279,12 +349,18 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
 
     public void setSingleFileDetail(String fileTypes, String fileNames,
                                     String sourceLanguages, String targetLanguages, String pageMinutess,
-                                    String costs, String totals, String fileCommnetss, int i) {
+                                    String costs, String totals, String fileCommnetss, int i, int flag) {
         if (!fileTypes.equals("")) {
             selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + fileType)), fileTypes);
             if (isAlertPresent(driver)) {
                 cancelAlert(driver);
             }
+            /*if(!sourceLanguages.equals(targetLanguages)) {
+                if(isElementDisplayed(driver.findElement(By.xpath(popup)))) {
+                    clickElement(driver.findElement(By.xpath(popupNo)));
+                }
+            }*/
+
         }
         enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + fileName)), fileNames);
         if (!sourceLanguages.equals("")) {
@@ -292,13 +368,20 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         }
         if (!targetLanguages.equals("")) {
             selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + targetLanguage)), targetLanguages);
+            /*if(!sourceLanguages.equals(targetLanguages)) {
+                if(isElementDisplayed(driver.findElement(By.xpath(popup)))) {
+                    clickElement(driver.findElement(By.xpath(popupNo)));
+                }
+            }*/
             if (isAlertPresent(driver)) {
                 cancelAlert(driver);
             }
         }
         enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + pagesMinutes)), pageMinutess);
-        if (!costs.equals("")) {
-            enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + costPerPageMinute)), costs);
+        if (flag==1) {
+            if (!costs.equals("")) {
+                enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + costPerPageMinute)), costs);
+            }
         }
         if (!totals.equals("")) {
             enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + totalCost)), totals);
@@ -376,6 +459,11 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         return convertAndGetValue(basePriceElement);
     }
 
+    public double getAdditionalServicePriceValue() {
+
+        return convertAndGetValue(additionalServicesTotalPriceElement);
+    }
+
     public double getTranslationTranscriptionPriceValue() {
 
         return convertAndGetValue(transcriptionTranslationPriceElement);
@@ -418,5 +506,95 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         } else {
             return 0;
         }
+    }
+
+    public void enterMFirstName(String name) {
+
+        enterTestBoxValuesWithClear(mFirstNameElement, name);
+    }
+
+    public void enterMLastName(String name) {
+
+        enterTestBoxValuesWithClear(mLastNameElement, name);
+    }
+
+    public void enterMAddress1(String address) {
+
+        enterTestBoxValuesWithClear(mAddress1Element, address);
+    }
+
+    public void enterMAddress2(String address) {
+
+        enterTestBoxValuesWithClear(mAddress2Element, address);
+    }
+
+    public void enterMState(String state) {
+
+        enterTestBoxValuesWithClear(mStateElement, state);
+    }
+
+    public void enterMCity(String city) {
+
+        enterTestBoxValuesWithClear(mCityElement, city);
+    }
+
+    public void enterMZipCode(String zipcode) {
+
+        enterTestBoxValuesWithClear(mZipCodeElement, zipcode);
+    }
+
+    public void selectMMailingOption(String option) {
+
+        selectDropDownByVText(mMailingOptionElement, option);
+    }
+
+    public void clickMOkBtn() {
+        clickElement(mOkBtnElement);
+    }
+
+    public void clickMCancelBtn() {
+        clickElement(mCancelBtnElement);
+    }
+
+    public void enterMailingHardCopyDetails(String fname, String lname, String address1,
+                                            String address2, String state, String city, String zipcode, String option) {
+        clickMailingOption();
+        enterMFirstName(fname);
+        enterMLastName(lname);
+        enterMAddress1(address1);
+        enterMAddress2(address2);
+        enterMState(state);
+        enterMCity(city);
+        enterMZipCode(zipcode);
+        selectMMailingOption(option);
+        clickMOkBtn();
+    }
+
+    public void enterCCertificateSubject(String subject) {
+
+        enterTestBoxValuesWithClear(certificateSubjectElement, subject);
+    }
+
+    public void clickCOkBtn() {
+        clickElement(cOkBtnElement);
+    }
+
+    public void clickCCancelBtn() {
+        clickElement(cCancelBtnElement);
+    }
+
+    public void enterCertificateDetails(String subject) {
+        clickCertificate();
+        enterCCertificateSubject(subject);
+        clickCOkBtn();
+    }
+
+    public void enterCustomerInfo(String email, String fname, String lname, String cno, String country) {
+
+        enterEmailId(email);
+        enterFirstName(fname);
+        enterLastName(lname);
+        enterPhoneNo(cno);
+        selectCountry(country);
     }
 }

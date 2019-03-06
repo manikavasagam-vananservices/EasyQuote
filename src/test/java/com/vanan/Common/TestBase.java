@@ -11,6 +11,7 @@ import org.openqa.selenium.safari.SafariDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialData {
@@ -24,7 +25,7 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
         //browserName = System.getProperty("browserName").toLowerCase();
         //operatingSystem = System.getProperty("operatingSystem").toLowerCase();
         browserName = "chrome";
-        operatingSystem = "windows";
+        operatingSystem = detectOS();
     }
 
     public void setDriver() {
@@ -33,13 +34,13 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
         switch (browserName) {
             case CHROME:
 
-                if (operatingSystem.equals("windows")) {
+                if (operatingSystem.indexOf("win")>=0) {
                     browserOS = CHROME_OS_WINDOWS;
                 }
-                if (operatingSystem.equals("linux")) {
+                if (operatingSystem.indexOf("nux")>=0||operatingSystem.indexOf("nix")>=0||operatingSystem.indexOf("aix")>=0) {
                     browserOS = CHROME_OS_LINUX;
                 }
-                if (operatingSystem.equals("mac")) {
+                if (operatingSystem.indexOf("mac")>=0||operatingSystem.indexOf("darwin")>=0) {
                     browserOS = CHROME_OS_MAC;
                 }
                 System.setProperty(CHROME_PROPERTY, browserOS);
@@ -48,13 +49,13 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
 
             case FIREFOX:
 
-                if (operatingSystem.equals("windows")) {
+                if (operatingSystem.indexOf("win")>=0) {
                     browserOS = FIREFOX_OS_WINDOWS;
                 }
-                if (operatingSystem.equals("linux")) {
+                if (operatingSystem.indexOf("nux")>=0||operatingSystem.indexOf("nix")>=0||operatingSystem.indexOf("aix")>=0) {
                     browserOS = FIREFOX_OS_LINUX;
                 }
-                if (operatingSystem.equals("mac")) {
+                if (operatingSystem.indexOf("mac")>=0||operatingSystem.indexOf("darwin")>=0) {
                     browserOS = FIREFOX_OS_MAC;
                 }
                 System.setProperty(FIREFOX_PROPERTY, browserOS);
@@ -106,5 +107,24 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
     public void waitingTime(int wait) {
 
         try{TimeUnit.SECONDS.sleep(wait);} catch (InterruptedException ex) {ex.printStackTrace();}
+    }
+
+    private String detectOS() {
+        return System.getProperty("os.name","generic").toLowerCase(Locale.ENGLISH);
+    }
+
+    public String checkStatus(double data1, double data2, String message) {
+        String status;
+        System.out.println(message);
+        if (data1 == data2) {
+            System.out.print(": Pass\n");
+            status = "Pass";
+        } else {
+            System.out.print(": Fail\n");
+            System.out.println("Expected : " + data1);
+            System.out.println("Actual : " + data2);
+            status = "Fail\n" + "Expected : " + data1 + "\nActual : " + data2;
+        }
+        return status;
     }
 }
