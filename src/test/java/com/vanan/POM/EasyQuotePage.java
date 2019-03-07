@@ -325,6 +325,16 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         clickJSElement(js, nativeEmt);
     }
 
+    public void clickIHaveTranscript() {
+
+        clickJSElement(js, needScript);
+    }
+
+    public void clickIHaveTranslation() {
+
+        clickJSElement(js, needTranslation);
+    }
+
 
     public void clickMailingOption() {
 

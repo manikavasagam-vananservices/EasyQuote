@@ -17,4 +17,17 @@ public interface FilePaths {
     public String level6 = testDataParentPath + "EasyQuoteL6.xlsx";
     //US transcriber
     public String level7 = testDataParentPath + "EasyQuoteL7.xlsx";
+    //I have translation/transcription
+    public String level8 = testDataParentPath + "EasyQuoteL8.xlsx";
+
+    //Transcription
+
+    // Notarization and US transcriber
+    public String level9 = testDataParentPath + "EasyQuoteL9.xlsx";
+    // Notarization and Quality Check
+    public String level10 = testDataParentPath + "EasyQuoteL10.xlsx";
+    // Notarization and Verbatim
+    public String level11 = testDataParentPath + "EasyQuoteL11.xlsx";
+    // Notarization and Mailing
+    public String level12 = testDataParentPath + "EasyQuoteL12.xlsx";
 }
