@@ -8,9 +8,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Basic Price with Notarization, QC
+ * Basic Price with time code + Notarization(Transcription, Translation)
  */
-public class EasyQuoteL10 extends TestBase {
+public class EasyQuoteL14 extends TestBase {
 
     EasyQuotePage easyQuotePage;
     FileProcessing fileProcessing;
@@ -26,7 +26,7 @@ public class EasyQuoteL10 extends TestBase {
 
     @Test(priority = 0)
     public void runTranscriptionTest() {
-        fileProcessing.setExcelFile(level10, service1);
+        fileProcessing.setExcelFile(level14, service1);
         for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
             System.out.println("Source : " + fileProcessing.getCellData(i, 0));
             System.out.println("Purpose : " + fileProcessing.getCellData(i, 1));
@@ -42,74 +42,21 @@ public class EasyQuoteL10 extends TestBase {
             easyQuotePage.clickAddFiles();
             easyQuotePage.setSingleFileDetails("", service1 + i, fileProcessing.getCellData(i, 0),
                     fileProcessing.getCellData(i, 0), (int) fileProcessing.getFloatCellData(i, 3) + "",
-                    fileProcessing.getFloatCellData(i, 4) + "", "", "Test", 1, (int)fileProcessing.getFloatCellData(i, 7));
+                    fileProcessing.getFloatCellData(i, 4) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 7));
+            if (fileProcessing.getCellData(i, 1).equals("General")) {
+                easyQuotePage.selectTimecode(fileProcessing.getCellData(i, 6));
+            }
             easyQuotePage.clickNotarization();
-            easyQuotePage.clickQualityCheck();
             waitingTime(5);
             double totalUnitCost = roundValues((fileProcessing.getFloatCellData(i, 3) * fileProcessing.getFloatCellData(i, 4)));
-            double qc = roundValues((fileProcessing.getFloatCellData(i, 6) * (int) fileProcessing.getFloatCellData(i, 3)));
-            double total = roundValues(totalUnitCost + fileProcessing.getFloatCellData(i, 5)+qc);
-            double transactionFee = roundValues(total * 0.05);
-            double orderTotal = roundValues(total + transactionFee);
-            fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 8);
-            fileProcessing.setCellData(easyQuotePage.getAdditionalServicePriceValue() + "", i, 9);
-            fileProcessing.setCellData(easyQuotePage.getSubTotalPriceValue() + "", i, 10);
-            fileProcessing.setCellData(easyQuotePage.getTransactionPriceValue() + "", i, 11);
-            fileProcessing.setCellData(easyQuotePage.getOrderTotalValue() + "", i, 12);
-            fileProcessing.setCellData(easyQuotePage.getOrderValue() + "", i, 13);
-            String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(), totalUnitCost, "BasePrice");
-            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 5)+qc, "AdditionalServicePrice");
-            String SubTotalPrice = checkStatus(easyQuotePage.getSubTotalPriceValue(), total, "SubTotalPrice");
-            String TransactionPrice = checkStatus(easyQuotePage.getTransactionPriceValue(), transactionFee, "TransactionPrice");
-            String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(), orderTotal, "OrderTotal");
-            String OrderValue = checkStatus(easyQuotePage.getOrderValue(), orderTotal, "OrderValue");
-            fileProcessing.setCellData(BasePrice, i, 14);
-            fileProcessing.setCellData(AdditionalServicePrice, i, 15);
-            fileProcessing.setCellData(SubTotalPrice, i, 16);
-            fileProcessing.setCellData(TransactionPrice, i, 17);
-            fileProcessing.setCellData(OrderTotal, i, 18);
-            fileProcessing.setCellData(OrderValue, i, 19);
-            String overAllStatus = "";
-            if (BasePrice.equals("Pass") && SubTotalPrice.equals("Pass") && TransactionPrice.equals("Pass")
-                    && OrderTotal.equals("Pass") && OrderValue.equals("Pass") && AdditionalServicePrice.equals("Pass")) {
-
-                overAllStatus = "Pass";
-
+            double timecode;
+            if (fileProcessing.getCellData(i, 1).equals("General")) {
+                timecode = roundValues((fileProcessing.getFloatCellData(i, 5) * (int) fileProcessing.getFloatCellData(i, 3)));
             } else {
-                overAllStatus = "Fail";
+                timecode = 0;
             }
-            fileProcessing.setCellData(overAllStatus, i, 20);
-        }
-        fileProcessing.writeFileContent(level10);
-    }
-
-    @Test(priority = 1)
-    public void runTranslationTest() {
-        fileProcessing.setExcelFile(level10, service2);
-        for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
-            System.out.println("Source : " + fileProcessing.getCellData(i, 0));
-            System.out.println("Target : " + fileProcessing.getCellData(i, 1));
-            System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
-            System.out.println("Content : " + fileProcessing.getCellData(i, 3));
-            System.out.println("Pages : " + (int) fileProcessing.getFloatCellData(i, 4));
-            System.out.println("Unit Cost : " + (int) fileProcessing.getFloatCellData(i, 5));
-            driver.get(APP_URL1);
-            enterCustomerInfo();
-            easyQuotePage.clickTranslation();
-            easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 2));
-            easyQuotePage.selectContent(fileProcessing.getCellData(i, 3));
-            easyQuotePage.selectWebsite("vananservices.com");
-            easyQuotePage.clickCallYes();
-            easyQuotePage.clickAddFiles();
-            easyQuotePage.setSingleFileDetail("Document", service2 + i, fileProcessing.getCellData(i, 0),
-                    fileProcessing.getCellData(i, 1), (int) fileProcessing.getFloatCellData(i, 4) + "",
-                    fileProcessing.getFloatCellData(i, 5) + "", "", "Test", 1, (int)fileProcessing.getFloatCellData(i, 8));
-            easyQuotePage.clickNotarization();
-            easyQuotePage.clickQualityCheck();
-            waitingTime(5);
-            double totalUnitCost = roundValues((fileProcessing.getFloatCellData(i, 4) * fileProcessing.getFloatCellData(i, 5)));
-            double qc = roundValues((fileProcessing.getFloatCellData(i, 7) * (int) fileProcessing.getFloatCellData(i, 4)));
-            double total = roundValues(totalUnitCost + fileProcessing.getFloatCellData(i, 6)+qc);
+            double additional=timecode+fileProcessing.getFloatCellData(i, 8);
+            double total = roundValues(totalUnitCost + additional);
             double transactionFee = roundValues(total * 0.05);
             double orderTotal = roundValues(total + transactionFee);
             fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 9);
@@ -119,7 +66,8 @@ public class EasyQuoteL10 extends TestBase {
             fileProcessing.setCellData(easyQuotePage.getOrderTotalValue() + "", i, 13);
             fileProcessing.setCellData(easyQuotePage.getOrderValue() + "", i, 14);
             String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(), totalUnitCost, "BasePrice");
-            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 6)+qc, "AdditionalServicePrice");
+            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(),
+                    additional, "Time Code+Notarization");
             String SubTotalPrice = checkStatus(easyQuotePage.getSubTotalPriceValue(), total, "SubTotalPrice");
             String TransactionPrice = checkStatus(easyQuotePage.getTransactionPriceValue(), transactionFee, "TransactionPrice");
             String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(), orderTotal, "OrderTotal");
@@ -141,7 +89,70 @@ public class EasyQuoteL10 extends TestBase {
             }
             fileProcessing.setCellData(overAllStatus, i, 21);
         }
-        fileProcessing.writeFileContent(level10);
+        fileProcessing.writeFileContent(level14);
+    }
+
+    @Test(priority = 1)
+    public void runTranslationTest() {
+        fileProcessing.setExcelFile(level14, service2);
+        for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
+            System.out.println("Source : " + fileProcessing.getCellData(i, 0));
+            System.out.println("Target : " + fileProcessing.getCellData(i, 1));
+            System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
+            System.out.println("Content : " + fileProcessing.getCellData(i, 3));
+            System.out.println("Pages : " + (int) fileProcessing.getFloatCellData(i, 4));
+            System.out.println("Unit Cost : " + (int) fileProcessing.getFloatCellData(i, 5));
+            driver.get(APP_URL1);
+            enterCustomerInfo();
+            easyQuotePage.clickTranslation();
+            easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 2));
+            easyQuotePage.selectContent(fileProcessing.getCellData(i, 3));
+            easyQuotePage.selectWebsite("vananservices.com");
+            easyQuotePage.clickCallYes();
+            easyQuotePage.clickAddFiles();
+            easyQuotePage.setSingleFileDetail("Audio", service2 + i, fileProcessing.getCellData(i, 0),
+                    fileProcessing.getCellData(i, 1), (int) fileProcessing.getFloatCellData(i, 4) + "",
+                    fileProcessing.getFloatCellData(i, 5) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 8));
+            easyQuotePage.selectTimecode(fileProcessing.getCellData(i, 7));
+            easyQuotePage.clickNotarization();
+            waitingTime(5);
+            double totalUnitCost = roundValues((fileProcessing.getFloatCellData(i, 4) * fileProcessing.getFloatCellData(i, 5)));
+            double timecode = roundValues((fileProcessing.getFloatCellData(i, 6) * (int) fileProcessing.getFloatCellData(i, 4))+fileProcessing.getFloatCellData(i, 9));
+
+            double total = roundValues(totalUnitCost + timecode);
+            double transactionFee = roundValues(total * 0.05);
+            double orderTotal = roundValues(total + transactionFee);
+            fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 10);
+            fileProcessing.setCellData(easyQuotePage.getAdditionalServicePriceValue() + "", i, 11);
+            fileProcessing.setCellData(easyQuotePage.getSubTotalPriceValue() + "", i, 12);
+            fileProcessing.setCellData(easyQuotePage.getTransactionPriceValue() + "", i, 13);
+            fileProcessing.setCellData(easyQuotePage.getOrderTotalValue() + "", i, 14);
+            fileProcessing.setCellData(easyQuotePage.getOrderValue() + "", i, 15);
+            String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(), totalUnitCost, "BasePrice");
+            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(),
+                    timecode, "Time code+Notarization");
+            String SubTotalPrice = checkStatus(easyQuotePage.getSubTotalPriceValue(), total, "SubTotalPrice");
+            String TransactionPrice = checkStatus(easyQuotePage.getTransactionPriceValue(), transactionFee, "TransactionPrice");
+            String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(), orderTotal, "OrderTotal");
+            String OrderValue = checkStatus(easyQuotePage.getOrderValue(), orderTotal, "OrderValue");
+            fileProcessing.setCellData(BasePrice, i, 16);
+            fileProcessing.setCellData(AdditionalServicePrice, i, 17);
+            fileProcessing.setCellData(SubTotalPrice, i, 18);
+            fileProcessing.setCellData(TransactionPrice, i, 19);
+            fileProcessing.setCellData(OrderTotal, i, 20);
+            fileProcessing.setCellData(OrderValue, i, 21);
+            String overAllStatus = "";
+            if (BasePrice.equals("Pass") && SubTotalPrice.equals("Pass") && TransactionPrice.equals("Pass")
+                    && OrderTotal.equals("Pass") && OrderValue.equals("Pass") && AdditionalServicePrice.equals("Pass")) {
+
+                overAllStatus = "Pass";
+
+            } else {
+                overAllStatus = "Fail";
+            }
+            fileProcessing.setCellData(overAllStatus, i, 22);
+        }
+        fileProcessing.writeFileContent(level14);
     }
 
     @AfterTest
@@ -153,4 +164,5 @@ public class EasyQuoteL10 extends TestBase {
 
         easyQuotePage.enterCustomerInfo("automation.vananservices@gmail.com", "AUTOMATION", "TESTING", "9876543210", "India");
     }
+
 }

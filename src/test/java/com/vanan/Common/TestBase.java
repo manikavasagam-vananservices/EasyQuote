@@ -18,6 +18,7 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
 
     public WebDriver driver;
 
+
     private String browserName = "";
     private String operatingSystem = "";
 
@@ -121,10 +122,14 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
             status = "Pass";
         } else {
             System.out.print(": Fail\n");
-            System.out.println("Expected : " + data1);
-            System.out.println("Actual : " + data2);
-            status = "Fail\n" + "Expected : " + data1 + "\nActual : " + data2;
+            System.out.println("Expected : " + data2);
+            System.out.println("Actual : " + data1);
+            status = "Fail\n" + "Expected : " + data2 + "\nActual : " + data1;
         }
         return status;
+    }
+
+    public double roundValues(double data) {
+        return (double)Math.round(data*100)/100;
     }
 }

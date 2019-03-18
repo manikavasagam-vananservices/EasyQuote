@@ -8,9 +8,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Basic Price with Notarization, QC
+ * Basic Price with Certificate + QC
  */
-public class EasyQuoteL10 extends TestBase {
+public class EasyQuoteL20 extends TestBase {
 
     EasyQuotePage easyQuotePage;
     FileProcessing fileProcessing;
@@ -26,7 +26,7 @@ public class EasyQuoteL10 extends TestBase {
 
     @Test(priority = 0)
     public void runTranscriptionTest() {
-        fileProcessing.setExcelFile(level10, service1);
+        fileProcessing.setExcelFile(level20, service1);
         for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
             System.out.println("Source : " + fileProcessing.getCellData(i, 0));
             System.out.println("Purpose : " + fileProcessing.getCellData(i, 1));
@@ -58,7 +58,7 @@ public class EasyQuoteL10 extends TestBase {
             fileProcessing.setCellData(easyQuotePage.getOrderTotalValue() + "", i, 12);
             fileProcessing.setCellData(easyQuotePage.getOrderValue() + "", i, 13);
             String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(), totalUnitCost, "BasePrice");
-            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 5)+qc, "AdditionalServicePrice");
+            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 5)+qc, "Certificate + QC");
             String SubTotalPrice = checkStatus(easyQuotePage.getSubTotalPriceValue(), total, "SubTotalPrice");
             String TransactionPrice = checkStatus(easyQuotePage.getTransactionPriceValue(), transactionFee, "TransactionPrice");
             String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(), orderTotal, "OrderTotal");
@@ -80,12 +80,12 @@ public class EasyQuoteL10 extends TestBase {
             }
             fileProcessing.setCellData(overAllStatus, i, 20);
         }
-        fileProcessing.writeFileContent(level10);
+        fileProcessing.writeFileContent(level20);
     }
 
     @Test(priority = 1)
     public void runTranslationTest() {
-        fileProcessing.setExcelFile(level10, service2);
+        fileProcessing.setExcelFile(level20, service2);
         for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
             System.out.println("Source : " + fileProcessing.getCellData(i, 0));
             System.out.println("Target : " + fileProcessing.getCellData(i, 1));
@@ -119,7 +119,7 @@ public class EasyQuoteL10 extends TestBase {
             fileProcessing.setCellData(easyQuotePage.getOrderTotalValue() + "", i, 13);
             fileProcessing.setCellData(easyQuotePage.getOrderValue() + "", i, 14);
             String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(), totalUnitCost, "BasePrice");
-            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 6)+qc, "AdditionalServicePrice");
+            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 6)+qc, "Certificate + QC");
             String SubTotalPrice = checkStatus(easyQuotePage.getSubTotalPriceValue(), total, "SubTotalPrice");
             String TransactionPrice = checkStatus(easyQuotePage.getTransactionPriceValue(), transactionFee, "TransactionPrice");
             String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(), orderTotal, "OrderTotal");
@@ -141,7 +141,7 @@ public class EasyQuoteL10 extends TestBase {
             }
             fileProcessing.setCellData(overAllStatus, i, 21);
         }
-        fileProcessing.writeFileContent(level10);
+        fileProcessing.writeFileContent(level20);
     }
 
     @AfterTest

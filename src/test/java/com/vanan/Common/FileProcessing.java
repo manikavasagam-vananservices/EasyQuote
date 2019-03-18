@@ -4,6 +4,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -47,10 +48,10 @@ public class FileProcessing {
 
             if (fileExtenstion.equals("xlsx")) {
                 Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
-                CellData = Cell.getStringCellValue();
+                CellData = Cell.getStringCellValue().trim();
             } else if (fileExtenstion.equals("xls")) {
                 cell = sheet.getRow(RowNum).getCell(ColNum);
-                CellData = cell.getStringCellValue();
+                CellData = cell.getStringCellValue().trim();
             }
         } catch (Exception e) {
         }
@@ -73,6 +74,26 @@ public class FileProcessing {
         }
         return CellData;
     }
+
+    public double getFloatCellData(int RowNum, int ColNum) {
+
+        Double CellData = 0.00;
+        try {
+
+            if (fileExtenstion.equals("xlsx")) {
+
+                Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
+                Cell.setCellType(CellType.STRING);
+                CellData = Double.valueOf(Cell.getStringCellValue());
+            } else if (fileExtenstion.equals("xls")) {
+                cell = sheet.getRow(RowNum).getCell(ColNum);
+                CellData = cell.getNumericCellValue();
+            }
+        } catch (Exception e) {
+        }
+        return CellData;
+    }
+
 
     public void setCellData(String Result, int RowNum, int ColNum) {
         try {

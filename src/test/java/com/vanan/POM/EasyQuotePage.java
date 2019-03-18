@@ -61,11 +61,11 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
     private WebElement notarizationElement;
     @FindBy(xpath = mailing)
     private WebElement mailingElement;
-    @FindBy(xpath = speakerCount)
+    @FindBy(id = speakerCount)
     private WebElement speakerCountElement;
     @FindBy(xpath = verbatim)
     private WebElement verbatimElement;
-    @FindBy(xpath = timecode)
+    @FindBy(id = timecode)
     private WebElement timecodeElement;
     @FindBy(xpath = nativeEmt)
     private WebElement nativeEmtA6Element;
@@ -320,6 +320,15 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         clickJSElement(js, verbatim);
     }
 
+    public void selectTimecode(String option) {
+        selectDropDownByVText(timecodeElement, option);
+    }
+
+    public void selectSpeakerCount(String option) {
+        selectDropDownByVText(speakerCountElement, option);
+    }
+
+
     public void clickUSTranscriber() {
 
         clickJSElement(js, nativeEmt);
@@ -350,7 +359,7 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
             if (i == fileLocations) {
                 setSingleFileDetail(fileTypes, fileNames,
                         sourceLanguages, targetLanguages, pageMinutess,
-                        costs, totals, fileCommnetss, i,flag);
+                        costs, totals, fileCommnetss, i, flag);
                 break;
             }
         }
@@ -365,11 +374,10 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
             if (isAlertPresent(driver)) {
                 cancelAlert(driver);
             }
-            /*if(!sourceLanguages.equals(targetLanguages)) {
-                if(isElementDisplayed(driver.findElement(By.xpath(popup)))) {
-                    clickElement(driver.findElement(By.xpath(popupNo)));
-                }
-            }*/
+            if (!sourceLanguages.equals(targetLanguages)) {
+                waitingTime(3);
+                pressEscKeyBtn(driver.findElement(By.tagName("body")));
+            }
 
         }
         enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + fileName)), fileNames);
@@ -378,17 +386,54 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         }
         if (!targetLanguages.equals("")) {
             selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + targetLanguage)), targetLanguages);
-            /*if(!sourceLanguages.equals(targetLanguages)) {
-                if(isElementDisplayed(driver.findElement(By.xpath(popup)))) {
-                    clickElement(driver.findElement(By.xpath(popupNo)));
-                }
-            }*/
             if (isAlertPresent(driver)) {
                 cancelAlert(driver);
             }
+            if (!sourceLanguages.equals(targetLanguages)) {
+                waitingTime(3);
+                pressEscKeyBtn(driver.findElement(By.tagName("body")));
+            }
         }
         enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + pagesMinutes)), pageMinutess);
-        if (flag==1) {
+        if (flag == 1) {
+            if (!costs.equals("")) {
+                enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + costPerPageMinute)), costs);
+            }
+        }
+        if (!totals.equals("")) {
+            enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + totalCost)), totals);
+        }
+        enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + comments)), fileCommnetss);
+    }
+
+    public void setSingleFileDetails(String fileTypes, String fileNames,
+                                     String sourceLanguages, String targetLanguages, String pageMinutess,
+                                     String costs, String totals, String fileCommnetss, int i, int flag) {
+        if (!fileTypes.equals("")) {
+            selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + fileType)), fileTypes);
+            if (isAlertPresent(driver)) {
+                cancelAlert(driver);
+            }
+
+            waitingTime(3);
+            pressEscKeyBtn(driver.findElement(By.tagName("body")));
+
+
+        }
+        enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + fileName)), fileNames);
+        if (!sourceLanguages.equals("")) {
+            selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + sourceLanguage)), sourceLanguages);
+        }
+        if (!targetLanguages.equals("")) {
+            selectDropDownByVText(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + targetLanguage)), targetLanguages);
+            if (isAlertPresent(driver)) {
+                cancelAlert(driver);
+            }
+            waitingTime(3);
+            pressEscKeyBtn(driver.findElement(By.tagName("body")));
+        }
+        enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + pagesMinutes)), pageMinutess);
+        if (flag == 1) {
             if (!costs.equals("")) {
                 enterTestBoxValuesWithClear(driver.findElement(By.xpath(fileTableRow + "[" + i + "]" + costPerPageMinute)), costs);
             }
@@ -572,11 +617,23 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         enterMFirstName(fname);
         enterMLastName(lname);
         enterMAddress1(address1);
-        enterMAddress2(address2);
-        enterMState(state);
-        enterMCity(city);
+        if (address2 != "") {
+            enterMAddress2(address2);
+        }
+
         enterMZipCode(zipcode);
+
+        if (state != "") {
+            enterMState(state);
+        }
+
+        if (city != "") {
+            enterMCity(city);
+        }
+
+
         selectMMailingOption(option);
+        waitingTime(8);
         clickMOkBtn();
     }
 

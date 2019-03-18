@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeTest;
 import com.vanan.Common.TestBase;
 
 /**
- * Basic Price calculation
+ * Basic Price calculation(Transcription, Translation, Captioning, Typing)
  */
 public class EasyQuoteL1 extends TestBase {
 
@@ -33,7 +33,7 @@ public class EasyQuoteL1 extends TestBase {
             System.out.println("Purpose : " + fileProcessing.getCellData(i, 1));
             System.out.println("Content : " + fileProcessing.getCellData(i, 2));
             System.out.println("Pages : " + (int) fileProcessing.getNumericCellData(i, 3));
-            System.out.println("Unit Cost : " + (int) fileProcessing.getNumericCellData(i, 4));
+            System.out.println("Unit Cost : " + fileProcessing.getFloatCellData(i, 4));
             driver.get(APP_URL1);
             enterCustomerInfo();
             easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 1));
@@ -42,12 +42,12 @@ public class EasyQuoteL1 extends TestBase {
             easyQuotePage.clickCallYes();
             easyQuotePage.clickAddFiles();
             easyQuotePage.setSingleFileDetail("", service1 + i, fileProcessing.getCellData(i, 0),
-                    fileProcessing.getCellData(i, 0), (int) fileProcessing.getNumericCellData(i, 3) + "",
-                    fileProcessing.getNumericCellData(i, 4) + "", "", "Test", 1, (int) fileProcessing.getNumericCellData(i, 5));
+                    fileProcessing.getCellData(i, 0), (int) fileProcessing.getFloatCellData(i, 3) + "",
+                    fileProcessing.getFloatCellData(i, 4) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
             waitingTime(5);
-            double totalUnitCost = fileProcessing.getNumericCellData(i, 3) * fileProcessing.getNumericCellData(i, 4);
-            double transactionFee = totalUnitCost * 0.05;
-            double orderTotal = totalUnitCost + transactionFee;
+            double totalUnitCost = roundValues(fileProcessing.getFloatCellData(i, 3) * fileProcessing.getFloatCellData(i, 4));
+            double transactionFee = roundValues(totalUnitCost * 0.05);
+            double orderTotal = roundValues(totalUnitCost + transactionFee);
             fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 6);
             fileProcessing.setCellData(easyQuotePage.getSubTotalPriceValue() + "", i, 7);
             fileProcessing.setCellData(easyQuotePage.getTransactionPriceValue() + "", i, 8);
@@ -86,7 +86,7 @@ public class EasyQuoteL1 extends TestBase {
             System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
             System.out.println("Content : " + fileProcessing.getCellData(i, 3));
             System.out.println("Pages : " + (int) fileProcessing.getNumericCellData(i, 4));
-            System.out.println("Unit Cost : " + (int) fileProcessing.getNumericCellData(i, 5));
+            System.out.println("Unit Cost : " + fileProcessing.getFloatCellData(i, 5));
             driver.get(APP_URL1);
             enterCustomerInfo();
             easyQuotePage.clickTranslation();
@@ -96,12 +96,12 @@ public class EasyQuoteL1 extends TestBase {
             easyQuotePage.clickCallYes();
             easyQuotePage.clickAddFiles();
             easyQuotePage.setSingleFileDetail("Document", service2 + i, fileProcessing.getCellData(i, 0),
-                    fileProcessing.getCellData(i, 1), (int) fileProcessing.getNumericCellData(i, 4) + "",
-                    fileProcessing.getNumericCellData(i, 5) + "", "", "Test", 1, (int) fileProcessing.getNumericCellData(i, 6));
+                    fileProcessing.getCellData(i, 1), (int) fileProcessing.getFloatCellData(i, 4) + "",
+                    fileProcessing.getFloatCellData(i, 5) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 6));
             waitingTime(5);
-            double totalUnitCost = fileProcessing.getNumericCellData(i, 4) * fileProcessing.getNumericCellData(i, 5);
-            double transactionFee = totalUnitCost * 0.05;
-            double orderTotal = totalUnitCost + transactionFee;
+            double totalUnitCost = roundValues(fileProcessing.getFloatCellData(i, 4) * fileProcessing.getFloatCellData(i, 5));
+            double transactionFee = roundValues(totalUnitCost * 0.05);
+            double orderTotal = roundValues(totalUnitCost + transactionFee);
             fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 7);
             fileProcessing.setCellData(easyQuotePage.getSubTotalPriceValue() + "", i, 8);
             fileProcessing.setCellData(easyQuotePage.getTransactionPriceValue() + "", i, 9);
@@ -140,7 +140,7 @@ public class EasyQuoteL1 extends TestBase {
             System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
             System.out.println("Content : " + fileProcessing.getCellData(i, 3));
             System.out.println("Pages : " + fileProcessing.getNumericCellData(i, 4));
-            System.out.println("Unit Cost : " + fileProcessing.getNumericCellData(i, 5));
+            System.out.println("Unit Cost : " + fileProcessing.getFloatCellData(i, 5));
             driver.get(APP_URL1);
             enterCustomerInfo();
             easyQuotePage.clickCaptioning();
@@ -151,12 +151,12 @@ public class EasyQuoteL1 extends TestBase {
             easyQuotePage.clickAddFiles();
             easyQuotePage.setSingleFileDetail("Video", service3 + i,
                     fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 1),
-                    fileProcessing.getNumericCellData(i, 4) + "",
-                    fileProcessing.getNumericCellData(i, 5)+ "", "", "Test", 1,(int)fileProcessing.getNumericCellData(i, 6));
+                    fileProcessing.getFloatCellData(i, 4) + "",
+                    fileProcessing.getFloatCellData(i, 5)+ "", "", "Test", 1,(int)fileProcessing.getFloatCellData(i, 6));
             waitingTime(5);
-            double totalUnitCost = fileProcessing.getNumericCellData(i, 4) * fileProcessing.getNumericCellData(i, 5);
-            double transactionFee = totalUnitCost * 0.05;
-            double orderTotal = totalUnitCost + transactionFee;
+            double totalUnitCost = roundValues(fileProcessing.getFloatCellData(i, 4) * fileProcessing.getFloatCellData(i, 5));
+            double transactionFee = roundValues(totalUnitCost * 0.05);
+            double orderTotal = roundValues(totalUnitCost + transactionFee);
             fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 7);
             fileProcessing.setCellData(easyQuotePage.getSubTotalPriceValue() + "", i, 8);
             fileProcessing.setCellData(easyQuotePage.getTransactionPriceValue() + "", i, 9);
@@ -193,8 +193,8 @@ public class EasyQuoteL1 extends TestBase {
             System.out.println("Source : " + fileProcessing.getCellData(i, 0));
             System.out.println("Purpose : " + fileProcessing.getCellData(i, 1));
             System.out.println("Content : " + fileProcessing.getCellData(i, 2));
-            System.out.println("Pages : " + (int) fileProcessing.getNumericCellData(i, 3));
-            System.out.println("Unit Cost : " + (int) fileProcessing.getNumericCellData(i, 4));
+            System.out.println("Pages : " + fileProcessing.getFloatCellData(i, 3));
+            System.out.println("Unit Cost : " + fileProcessing.getFloatCellData(i, 4));
             driver.get(APP_URL1);
             enterCustomerInfo();
             easyQuotePage.clickTyping();
@@ -205,12 +205,12 @@ public class EasyQuoteL1 extends TestBase {
             easyQuotePage.clickAddFiles();
             easyQuotePage.setSingleFileDetail("Document", service4 + i,
                     fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 0),
-                    fileProcessing.getNumericCellData(i, 3) + "", fileProcessing.getNumericCellData(i, 4)+"", "", "Test", 1,(int)fileProcessing.getNumericCellData(i, 5));
+                    fileProcessing.getFloatCellData(i, 3) + "", fileProcessing.getFloatCellData(i, 4)+"", "", "Test", 1,(int)fileProcessing.getFloatCellData(i, 5));
 
             waitingTime(5);
-            double totalUnitCost = fileProcessing.getNumericCellData(i, 3) * fileProcessing.getNumericCellData(i, 4);
-            double transactionFee = totalUnitCost * 0.05;
-            double orderTotal = totalUnitCost + transactionFee;
+            double totalUnitCost = roundValues(fileProcessing.getFloatCellData(i, 3) * fileProcessing.getFloatCellData(i, 4));
+            double transactionFee = roundValues(totalUnitCost * 0.05);
+            double orderTotal = roundValues(totalUnitCost + transactionFee);
             fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 6);
             fileProcessing.setCellData(easyQuotePage.getSubTotalPriceValue() + "", i, 7);
             fileProcessing.setCellData(easyQuotePage.getTransactionPriceValue() + "", i, 8);
