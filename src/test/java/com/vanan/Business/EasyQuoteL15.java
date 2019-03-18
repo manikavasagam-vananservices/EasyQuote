@@ -8,9 +8,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Basic Price with Notarization, QC
+ * Basic Price with Speaker Count(Transcription, Translation)
  */
-public class EasyQuoteL10 extends TestBase {
+public class EasyQuoteL15 extends TestBase {
 
     EasyQuotePage easyQuotePage;
     FileProcessing fileProcessing;
@@ -26,7 +26,7 @@ public class EasyQuoteL10 extends TestBase {
 
     @Test(priority = 0)
     public void runTranscriptionTest() {
-        fileProcessing.setExcelFile(level10, service1);
+        fileProcessing.setExcelFile(level15, service1);
         for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
             System.out.println("Source : " + fileProcessing.getCellData(i, 0));
             System.out.println("Purpose : " + fileProcessing.getCellData(i, 1));
@@ -40,15 +40,15 @@ public class EasyQuoteL10 extends TestBase {
             easyQuotePage.selectWebsite("vananservices.com");
             easyQuotePage.clickCallYes();
             easyQuotePage.clickAddFiles();
-            easyQuotePage.setSingleFileDetails("", service1 + i, fileProcessing.getCellData(i, 0),
+            easyQuotePage.setSingleFileDetail("", service1 + i, fileProcessing.getCellData(i, 0),
                     fileProcessing.getCellData(i, 0), (int) fileProcessing.getFloatCellData(i, 3) + "",
-                    fileProcessing.getFloatCellData(i, 4) + "", "", "Test", 1, (int)fileProcessing.getFloatCellData(i, 7));
-            easyQuotePage.clickNotarization();
-            easyQuotePage.clickQualityCheck();
+                    fileProcessing.getFloatCellData(i, 4) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 7));
+            easyQuotePage.selectSpeakerCount(fileProcessing.getCellData(i, 6));
             waitingTime(5);
+
             double totalUnitCost = roundValues((fileProcessing.getFloatCellData(i, 3) * fileProcessing.getFloatCellData(i, 4)));
-            double qc = roundValues((fileProcessing.getFloatCellData(i, 6) * (int) fileProcessing.getFloatCellData(i, 3)));
-            double total = roundValues(totalUnitCost + fileProcessing.getFloatCellData(i, 5)+qc);
+            double speakerCount = roundValues((fileProcessing.getFloatCellData(i, 5) * (int) fileProcessing.getFloatCellData(i, 3)));
+            double total = roundValues(totalUnitCost + speakerCount);
             double transactionFee = roundValues(total * 0.05);
             double orderTotal = roundValues(total + transactionFee);
             fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 8);
@@ -58,7 +58,8 @@ public class EasyQuoteL10 extends TestBase {
             fileProcessing.setCellData(easyQuotePage.getOrderTotalValue() + "", i, 12);
             fileProcessing.setCellData(easyQuotePage.getOrderValue() + "", i, 13);
             String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(), totalUnitCost, "BasePrice");
-            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 5)+qc, "AdditionalServicePrice");
+            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(),
+                    speakerCount, "Speaker Count");
             String SubTotalPrice = checkStatus(easyQuotePage.getSubTotalPriceValue(), total, "SubTotalPrice");
             String TransactionPrice = checkStatus(easyQuotePage.getTransactionPriceValue(), transactionFee, "TransactionPrice");
             String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(), orderTotal, "OrderTotal");
@@ -80,12 +81,12 @@ public class EasyQuoteL10 extends TestBase {
             }
             fileProcessing.setCellData(overAllStatus, i, 20);
         }
-        fileProcessing.writeFileContent(level10);
+        fileProcessing.writeFileContent(level15);
     }
 
     @Test(priority = 1)
     public void runTranslationTest() {
-        fileProcessing.setExcelFile(level10, service2);
+        fileProcessing.setExcelFile(level15, service2);
         for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
             System.out.println("Source : " + fileProcessing.getCellData(i, 0));
             System.out.println("Target : " + fileProcessing.getCellData(i, 1));
@@ -101,15 +102,16 @@ public class EasyQuoteL10 extends TestBase {
             easyQuotePage.selectWebsite("vananservices.com");
             easyQuotePage.clickCallYes();
             easyQuotePage.clickAddFiles();
-            easyQuotePage.setSingleFileDetail("Document", service2 + i, fileProcessing.getCellData(i, 0),
+            easyQuotePage.setSingleFileDetail("Audio", service2 + i, fileProcessing.getCellData(i, 0),
                     fileProcessing.getCellData(i, 1), (int) fileProcessing.getFloatCellData(i, 4) + "",
-                    fileProcessing.getFloatCellData(i, 5) + "", "", "Test", 1, (int)fileProcessing.getFloatCellData(i, 8));
-            easyQuotePage.clickNotarization();
-            easyQuotePage.clickQualityCheck();
+                    fileProcessing.getFloatCellData(i, 5) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 8));
+            easyQuotePage.selectSpeakerCount(fileProcessing.getCellData(i, 7));
+
             waitingTime(5);
             double totalUnitCost = roundValues((fileProcessing.getFloatCellData(i, 4) * fileProcessing.getFloatCellData(i, 5)));
-            double qc = roundValues((fileProcessing.getFloatCellData(i, 7) * (int) fileProcessing.getFloatCellData(i, 4)));
-            double total = roundValues(totalUnitCost + fileProcessing.getFloatCellData(i, 6)+qc);
+            double speakerCount = roundValues((fileProcessing.getFloatCellData(i, 6) * (int) fileProcessing.getFloatCellData(i, 4)));
+
+            double total = roundValues(totalUnitCost + speakerCount);
             double transactionFee = roundValues(total * 0.05);
             double orderTotal = roundValues(total + transactionFee);
             fileProcessing.setCellData(easyQuotePage.getBasePriceValue() + "", i, 9);
@@ -119,7 +121,8 @@ public class EasyQuoteL10 extends TestBase {
             fileProcessing.setCellData(easyQuotePage.getOrderTotalValue() + "", i, 13);
             fileProcessing.setCellData(easyQuotePage.getOrderValue() + "", i, 14);
             String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(), totalUnitCost, "BasePrice");
-            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(), fileProcessing.getFloatCellData(i, 6)+qc, "AdditionalServicePrice");
+            String AdditionalServicePrice = checkStatus(easyQuotePage.getAdditionalServicePriceValue(),
+                    speakerCount, "Speaker Count");
             String SubTotalPrice = checkStatus(easyQuotePage.getSubTotalPriceValue(), total, "SubTotalPrice");
             String TransactionPrice = checkStatus(easyQuotePage.getTransactionPriceValue(), transactionFee, "TransactionPrice");
             String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(), orderTotal, "OrderTotal");
@@ -141,7 +144,7 @@ public class EasyQuoteL10 extends TestBase {
             }
             fileProcessing.setCellData(overAllStatus, i, 21);
         }
-        fileProcessing.writeFileContent(level10);
+        fileProcessing.writeFileContent(level15);
     }
 
     @AfterTest
@@ -153,4 +156,5 @@ public class EasyQuoteL10 extends TestBase {
 
         easyQuotePage.enterCustomerInfo("automation.vananservices@gmail.com", "AUTOMATION", "TESTING", "9876543210", "India");
     }
+
 }

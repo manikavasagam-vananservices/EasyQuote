@@ -128,4 +128,13 @@ public class AccessingElement {
     public void cancelAlert(WebDriver driver) {
         driver.switchTo().alert().dismiss();
     }
+
+    public void pressEscKeyBtn(WebElement element) {
+        element.sendKeys(Keys.ESCAPE);
+    }
+
+    public void waitingTime(int wait) {
+
+        try{TimeUnit.SECONDS.sleep(wait);} catch (InterruptedException ex) {ex.printStackTrace();}
+    }
 }
