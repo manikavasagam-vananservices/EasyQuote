@@ -16,7 +16,7 @@ public class EasyQuoteL1 extends TestBase {
     EasyQuotePage easyQuotePage;
     FileProcessing fileProcessing;
 
-    @BeforeTest
+    //@BeforeTest
     public void configureBrowser() {
 
         setDriver();
@@ -27,6 +27,8 @@ public class EasyQuoteL1 extends TestBase {
 
     @Test(priority = 0)
     public void runTranscriptionTest() {
+        easyQuotePage = new EasyQuotePage(driver);
+        fileProcessing = new FileProcessing();
         fileProcessing.setExcelFile(level1, service1);
         for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
             System.out.println("Source : " + fileProcessing.getCellData(i, 0));
@@ -34,7 +36,7 @@ public class EasyQuoteL1 extends TestBase {
             System.out.println("Content : " + fileProcessing.getCellData(i, 2));
             System.out.println("Pages : " + (int) fileProcessing.getNumericCellData(i, 3));
             System.out.println("Unit Cost : " + fileProcessing.getFloatCellData(i, 4));
-            driver.get(APP_URL1);
+
             enterCustomerInfo();
             easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 1));
             easyQuotePage.selectContent(fileProcessing.getCellData(i, 2));
@@ -73,6 +75,7 @@ public class EasyQuoteL1 extends TestBase {
                 overAllStatus = "Fail";
             }
             fileProcessing.setCellData(overAllStatus, i, 16);
+            driver.get(APP_URL1);
         }
         fileProcessing.writeFileContent(level1);
     }

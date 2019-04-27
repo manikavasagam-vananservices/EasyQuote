@@ -16,20 +16,20 @@ import java.util.concurrent.TimeUnit;
 
 public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialData {
 
-    public WebDriver driver;
+    public static WebDriver driver;
 
 
-    private String browserName = "";
-    private String operatingSystem = "";
+    private static String browserName = "";
+    private static String operatingSystem = "";
 
-    private void getDriverDetails() {
+    private static void getDriverDetails() {
         //browserName = System.getProperty("browserName").toLowerCase();
         //operatingSystem = System.getProperty("operatingSystem").toLowerCase();
         browserName = "chrome";
         operatingSystem = detectOS();
     }
 
-    public void setDriver() {
+    public static void setDriver() {
         getDriverDetails();
         String browserOS = "";
         switch (browserName) {
@@ -77,12 +77,12 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
         setBrowserSizeMaximum();
     }
 
-    private void setImplicitWaitingTime() {
+    private static void setImplicitWaitingTime() {
 
         driver.manage().timeouts().implicitlyWait(IMPLICIT_WAITING_TIME, TimeUnit.SECONDS);
     }
 
-    private void setBrowserSizeMaximum() {
+    private static void setBrowserSizeMaximum() {
 
         driver.manage().window().maximize();
     }
@@ -110,11 +110,11 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
         try{TimeUnit.SECONDS.sleep(wait);} catch (InterruptedException ex) {ex.printStackTrace();}
     }
 
-    private String detectOS() {
+    private static String detectOS() {
         return System.getProperty("os.name","generic").toLowerCase(Locale.ENGLISH);
     }
 
-    public String checkStatus(double data1, double data2, String message) {
+    public static String checkStatus(double data1, double data2, String message) {
         String status;
         System.out.println(message);
         if (data1 == data2) {
