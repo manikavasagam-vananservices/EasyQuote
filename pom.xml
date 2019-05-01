@@ -27,7 +27,7 @@
             <version>2.20.1</version>  
                          <configuration>
                                   <suitXmlFiles>
-                                           <suitXmlFile>testng.xml</suitXmlFile>
+                                           <suitXmlFile>src/test/resources/testng.xml</suitXmlFile>
                                            </suitXmlFiles>
                          </configuration>
                   </plugin>
