@@ -29,7 +29,7 @@ public class Trascription extends TestBase implements AppData {
         fileProcessing = new FileProcessing();
         fileType = "Audio";//System.getProperty("fileType");
         ScenarioGenerator scenarioGenerator = new ScenarioGenerator();
-        String[] services = null;
+        String[] services = new String[0]
         if (fileType.equals("audio")) {
             services = audioTranscription;
         } else if (fileType.equals("video")) {
