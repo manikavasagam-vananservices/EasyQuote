@@ -46,10 +46,11 @@ public class Trascription extends TestBase implements AppData {
         scenarios = scenarioGenerator.getScenarios(services, possibility);
         PriceCalculator priceCalculator = new PriceCalculator();
         fileProcessing.setExcelFile(transcription, service1);
-        try {
+        
             for (int j=0; j<scenarios.size();j++) {
                 System.out.println("======="+scenarios.get(j)+"=========");
                 for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
+                    try {
                     System.out.println("Source : " + fileProcessing.getCellData(i, 0));
                     System.out.println("Tier : " + fileProcessing.getCellData(i, 1).toUpperCase());
                     System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
@@ -111,13 +112,15 @@ public class Trascription extends TestBase implements AppData {
                     } else {
                         overAllStatus = "Fail";
                     }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    takeSnapShot(driver,rand.nextInt(3600)+".png");
+                }
                     driver.get(APP_URL1);
                 }
+                 System.out.println("=======Completed"+(j+1)+"=========");
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            takeSnapShot(driver,rand.nextInt(50)+".png");
-        }
+      
 
     }
 
