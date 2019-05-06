@@ -157,21 +157,21 @@ public class PriceCalculator implements Pricedetails {
             if (tier.equals("tr1")) {
                 if (language.equals("English")) {
                     if (unit >= 1200) {
-                        value = unit * 0.3;
+                        value = (unit *transcriptionEnglishFees[0]) * 0.3;
                     } else if (unit >= 600 && unit <= 1119) {
-                        value = unit * 0.2;
+                        value = (unit *transcriptionEnglishFees[0]) * 0.2;
                     } else if (unit >= 300 && unit <= 599) {
-                        value = unit * 0.1;
+                        value = (unit *transcriptionEnglishFees[0]) * 0.1;
                     } else {
                         value = 0;
                     }
                 } else {
                     if (unit >= 720) {
-                        value = unit * 0.3;
+                        value = (unit* getTranscriptionFee(tier)) * 0.3;
                     } else if (unit >= 360 && unit <= 719) {
-                        value = unit * 0.2;
+                        value = (unit* getTranscriptionFee(tier)) * 0.2;
                     } else if (unit >= 180 && unit <= 359) {
-                        value = unit * 0.1;
+                        value = (unit* getTranscriptionFee(tier)) * 0.1;
                     } else {
                         value = 0;
                     }
