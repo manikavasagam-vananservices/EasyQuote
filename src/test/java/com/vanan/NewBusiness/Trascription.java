@@ -48,6 +48,7 @@ public class Trascription extends TestBase implements AppData {
         fileProcessing.setExcelFile(transcription, service1);
         try {
             for (int j = 0; j < 1; j++) {//  for (int j=0; j<scenarios.size();j++) {
+                System.out.println("======="+scenarios.get(j)+"=========");
                 for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
                     System.out.println("Source : " + fileProcessing.getCellData(i, 0));
                     System.out.println("Tier : " + fileProcessing.getCellData(i, 1).toUpperCase());
