@@ -5,7 +5,7 @@
     <test name = "test1">
         <classes>
             <class name = "com.vanan.Business.Login"/>
-            <class name = "com.vanan.Business.EasyQuoteL1"/>
+            <class name = "com.vanan.NewBusiness.Trascription"/>
         </classes>
     </test>
 </suite>

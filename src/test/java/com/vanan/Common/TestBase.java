@@ -90,7 +90,7 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
     public void takeSnapShot(WebDriver webdriver, String fileName) {
 
         try {
-
+            System.out.println(fileName+"=================>");
             TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
             File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
             File DestFile = new File(screenshotParentPath + fileName);
