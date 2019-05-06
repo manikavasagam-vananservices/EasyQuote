@@ -35,9 +35,9 @@ public class PriceCalculator implements Pricedetails {
     }
     private double getQAFee(double unit, String fileType) {
         double value = 0;
-        if(fileType.equals("audio")||fileType.equals("video")) {
+        if(fileType.equals("Audio")||fileType.equals("Video")) {
             value = unit*qcFee[0];
-        } else if(fileType.equals("document")) {
+        } else if(fileType.equals("Document")) {
             value = unit*qcFee[1];
         }
         return value;
@@ -163,7 +163,7 @@ public class PriceCalculator implements Pricedetails {
                     } else if (unit >= 300 && unit <= 599) {
                         value = unit * 0.1;
                     } else {
-                        value = unit * transcriptionEnglishFees[0];
+                        value = 0;
                     }
                 } else {
                     if (unit >= 720) {
@@ -173,7 +173,7 @@ public class PriceCalculator implements Pricedetails {
                     } else if (unit >= 180 && unit <= 359) {
                         value = unit * 0.1;
                     } else {
-                        value = unit * getTranscriptionFee(tier);
+                        value = 0;
                     }
                 }
 
@@ -183,13 +183,6 @@ public class PriceCalculator implements Pricedetails {
         }
         return value;
     }
-
-    public double transcriptionAdditionalServices() {
-
-
-        return 0;
-    }
-
 
     private double calculateTranscriptionAdditionalServices(String service,double unit, String langauge,
             String timeCodeOption, String SpeakerOption, String mailingNotaryOption, String purpose,
