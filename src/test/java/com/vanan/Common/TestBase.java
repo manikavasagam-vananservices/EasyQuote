@@ -116,14 +116,14 @@ public class TestBase implements FilePaths, BrowserConfig, AppData, CredentialDa
 
     public static String checkStatus(double data1, double data2, String message) {
         String status;
-        System.out.println(message);
+        System.out.print(message);
         if (data1 == data2) {
             System.out.print(": Pass\n");
             status = "Pass";
         } else {
-            System.out.print(": Fail\n");
-            System.out.println("Expected : " + data2);
-            System.out.println("Actual : " + data1);
+            System.out.print(": Fail\t");
+            System.out.print("Expected : " + data2);
+            System.out.print("\tActual : " + data1+"\n");
             status = "Fail\n" + "Expected : " + data2 + "\nActual : " + data1;
         }
         return status;
