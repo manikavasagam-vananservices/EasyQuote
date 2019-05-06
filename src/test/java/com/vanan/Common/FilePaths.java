@@ -48,4 +48,8 @@ public interface FilePaths {
     public String level21 = testDataParentPath + "EasyQuoteL21.xlsx";
     //Time code  + Quality Check(Transcription, Translation)
     public String level22 = testDataParentPath + "EasyQuoteL22.xlsx";
+
+    //Transcription
+    public String transcription = testDataParentPath + "Transcription.xlsx";
+
 }
