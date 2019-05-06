@@ -7,7 +7,7 @@ public interface AppData {
     public String Stage_URL = "http://texasmutliservices.com/crm/public/easy-quote";
     public String Live_URL = "https://secure-dt.com/crm/user/login";
     public String env[] = {"live","stage"};
-    public String credentials[] = {"Developer","Q)r2mPd*Bc", "", ""};
+    public String credentials[] = {"Developer","Crw&ftNWZ5", "", ""};
     public String service1 = "Transcription";
     public String service2 = "Translation";
     public String service3 = "Captioning";
