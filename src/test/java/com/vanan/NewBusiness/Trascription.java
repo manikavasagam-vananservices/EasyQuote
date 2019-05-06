@@ -2,6 +2,8 @@ package com.vanan.NewBusiness;
 
 import com.vanan.Common.*;
 import com.vanan.POM.EasyQuotePage;
+
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -32,11 +34,11 @@ public class Trascription extends TestBase implements AppData {
         String[] services = new String[0];
         if (fileType.equals("Audio")) {
             services = audioTranscription;
-        } else if (fileType.equals("video")) {
+        } else if (fileType.equals("Video")) {
             services = videoTranscription;
-        } else if (fileType.equals("document")) {
+        } else if (fileType.equals("Document")) {
             services = documentTranscription;
-        } else if (fileType.equals("script")) {
+        } else if (fileType.equals("Script")) {
             services = scriptTranscription;
         }
 
@@ -179,5 +181,10 @@ public class Trascription extends TestBase implements AppData {
     public void enterCustomerInfo() {
 
         easyQuotePage.enterCustomerInfo("automation.vananservices@gmail.com", "AUTOMATION", "TESTING", "9876543210", "India");
+    }
+    
+    @AfterClass
+    public void teardown() {
+        tearDown();
     }
 }
