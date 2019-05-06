@@ -12,7 +12,7 @@ import java.util.Random;
 
 /**
  * Transcription service
- * Basic Price calculation
+ * Basic Price calculation (No Tat)
  * Individual and Multiscenario
  * "Notarization","Additional Acceptance Testing","Certificate","Verbatim","Mailing and Notary","US transcriber","Time code","Speaker Count", "Other Services","Need Translation","Need Captioning"
  */
@@ -29,7 +29,7 @@ public class Trascription extends TestBase implements AppData {
         
         easyQuotePage = new EasyQuotePage(driver);
         fileProcessing = new FileProcessing();
-        fileType = "Audio";//System.getProperty("fileType");
+            fileType = System.getProperty("fileType");
         ScenarioGenerator scenarioGenerator = new ScenarioGenerator();
         String[] services = new String[0];
         if (fileType.equals("Audio")) {
@@ -42,12 +42,12 @@ public class Trascription extends TestBase implements AppData {
             services = scriptTranscription;
         }
 
-        int possibility = 2;
+        int possibility =Integer.parseInt(System.getProperty("serviceCount"));
         scenarios = scenarioGenerator.getScenarios(services, possibility);
         PriceCalculator priceCalculator = new PriceCalculator();
         fileProcessing.setExcelFile(transcription, service1);
         try {
-            for (int j = 0; j < 1; j++) {//  for (int j=0; j<scenarios.size();j++) {
+            for (int j=0; j<scenarios.size();j++) {
                 System.out.println("======="+scenarios.get(j)+"=========");
                 for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
                     System.out.println("Source : " + fileProcessing.getCellData(i, 0));
