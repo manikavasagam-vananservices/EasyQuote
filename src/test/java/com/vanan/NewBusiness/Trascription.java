@@ -22,11 +22,9 @@ public class Trascription extends TestBase implements AppData {
     List<String> scenarios;
     Random rand = new Random();
 
-
-    @BeforeTest
-    public void configureBrowser() {
-
-        setDriver();
+    @Test(priority = 1)
+    public void runTranscriptionTest() {
+        
         easyQuotePage = new EasyQuotePage(driver);
         fileProcessing = new FileProcessing();
         fileType = "Audio";//System.getProperty("fileType");
@@ -44,11 +42,6 @@ public class Trascription extends TestBase implements AppData {
 
         int possibility = 2;
         scenarios = scenarioGenerator.getScenarios(services, possibility);
-
-    }
-
-    @Test(priority = 0)
-    public void runTranscriptionTest() {
         PriceCalculator priceCalculator = new PriceCalculator();
         fileProcessing.setExcelFile(transcription, service1);
         try {
