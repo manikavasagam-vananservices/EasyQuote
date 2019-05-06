@@ -60,6 +60,7 @@ public class Trascription extends TestBase implements AppData {
                     easyQuotePage.selectContent(fileProcessing.getCellData(i, 3));
                     easyQuotePage.selectWebsite("vananservices.com");
                     easyQuotePage.clickCallYes();
+                    waitingTime(1);
                     easyQuotePage.clickAddFiles();
                     easyQuotePage.setSingleFileDetail(fileType, service1 + i, fileProcessing.getCellData(i, 0),
                             fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
