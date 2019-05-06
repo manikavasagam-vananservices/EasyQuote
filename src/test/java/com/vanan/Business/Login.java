@@ -34,7 +34,7 @@ public class Login extends TestBase implements AppData {
         }
 
         driver.get(url);
-        Cookie name = new Cookie("TEST_MODE", "TEST_MODE");
+        Cookie name = new Cookie("ignore-alert", "ignore-alert");
         driver.manage().addCookie(name);
         LoginPage login = new LoginPage(driver);
         login.signIn(username, password);
