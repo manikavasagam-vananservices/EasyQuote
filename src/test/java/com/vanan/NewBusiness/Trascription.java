@@ -51,7 +51,7 @@ public class Trascription extends TestBase implements AppData {
                     System.out.println("Tier : " + fileProcessing.getCellData(i, 1).toUpperCase());
                     System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
                     System.out.println("Content : " + fileProcessing.getCellData(i, 3));
-                    System.out.println("Unit : " + fileProcessing.getNumericCellData(i, 4));
+                    System.out.println("Unit : " + fileProcessing.getFloatCellData(i, 4));
 
                     enterCustomerInfo();
                     easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 2));
@@ -60,7 +60,7 @@ public class Trascription extends TestBase implements AppData {
                     easyQuotePage.clickCallYes();
                     easyQuotePage.clickAddFiles();
                     easyQuotePage.setSingleFileDetail(fileType, service1 + i, fileProcessing.getCellData(i, 0),
-                            fileProcessing.getCellData(i, 0), (int) fileProcessing.getFloatCellData(i, 4) + "",
+                            fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
                             priceCalculator.getTranscriptionFee(fileProcessing.getCellData(i, 1)) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
                     waitingTime(5);
                     String[] singleScenario = scenarios.get(j).split(",");
@@ -72,14 +72,14 @@ public class Trascription extends TestBase implements AppData {
                         }
                     }
                     waitingTime(5);
-                    double basePrice = roundValues(priceCalculator.getTranscriptionTotalUnit(fileProcessing.getNumericCellData(i, 4),
+                    double basePrice = roundValues(priceCalculator.getTranscriptionTotalUnit(fileProcessing.getFloatCellData(i, 4),
                             fileProcessing.getCellData(i, 1), fileProcessing.getCellData(i, 2),
                             fileProcessing.getCellData(i, 0), languageStatus));
                     double discount = roundValues(priceCalculator.getTranscriptionDiscount(
-                            fileProcessing.getCellData(i, 1), fileProcessing.getNumericCellData(i, 4),
+                            fileProcessing.getCellData(i, 1), fileProcessing.getFloatCellData(i, 4),
                             fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2),
                             languageStatus));
-                    double additionalService = roundValues(priceCalculator.getAdditionalPriceForTranscription(singleScenario, fileProcessing.getNumericCellData(i, 4),
+                    double additionalService = roundValues(priceCalculator.getAdditionalPriceForTranscription(singleScenario, fileProcessing.getFloatCellData(i, 4),
                             fileProcessing.getCellData(i, 0), getTimecodeOption(1), getSpeakerCountOption(1),
                             getMailingNotaryOption(1), fileProcessing.getCellData(i, 2), fileType));
                     double subtotal = roundValues((basePrice - discount) + additionalService);
