@@ -71,7 +71,7 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
     private WebElement nativeEmtA6Element;
     @FindBy(xpath = qualityCheck)
     private WebElement qualityCheckElement;
-    @FindBy(xpath = otherServices)
+    @FindBy(id = otherServices)
     private WebElement otherServicesElement;
     @FindBy(xpath = certificate)
     private WebElement certificateElement;
@@ -328,6 +328,9 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         selectDropDownByVText(speakerCountElement, option);
     }
 
+    public void selectOthers(String option) {
+        selectDropDownByVText(otherServicesElement, option);
+    }
 
     public void clickUSTranscriber() {
 

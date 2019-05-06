@@ -3,7 +3,7 @@ package com.vanan.Common;
 public interface AppData {
 
     public String APP_URL1 = "https://secure-dt.com/crm/public/easy-quote";
-    public String APP_URL2 = "";
+    public String APP_URL2 = "http://texasmutliservices.com/crm/public/easy-quote";
     public String Stage_URL = "http://texasmutliservices.com/crm/public/easy-quote";
     public String Live_URL = "https://secure-dt.com/crm/user/login";
     public String env[] = {"live","stage"};
@@ -12,4 +12,16 @@ public interface AppData {
     public String service2 = "Translation";
     public String service3 = "Captioning";
     public String service4 = "Typing";
+
+    String[] audioTranscription = {"Notarization","Additional Acceptance Testing","Certificate","Verbatim","Mailing and Notary","US transcriber","Time code","Speaker Count", "Other Services","Need Translation"};
+    String[] videoTranscription = {"Notarization","Additional Acceptance Testing","Certificate","Verbatim","Mailing and Notary","US transcriber","Time code","Speaker Count", "Other Services","Need Translation","Need Captioning"};
+    String[] documentTranscription = {"Notarization","Additional Acceptance Testing","Certificate","Mailing and Notary", "Other Services","Need Translation"};
+    String[] scriptTranscription = {"Notarization","Additional Acceptance Testing","Certificate","Mailing and Notary", "Other Services"};
+
+    String[] mailingOption = {"Standard","2 - 3 business days","Overnight"};
+    String[] timeCodeOption = {"Every 3 sec ($0.50 per minute)","Every 30 sec ($0.50 per minute)","Every 1 minute ($0.25 per minute)","Speaker change ($0.50 per minute)"};
+    String[] speakerCountOption = {"1 Speaker ($0.00 per minute)","2 Speakers ($0.10 per minute)","3 to 5 Speakers ($0.25 per minute)","6 to 10 Speakers ($0.35 per minute)","10+ Speakers ($0.50 per minute)"};
+    String[] othersOption = {"Translation","Transcription","Typing","Captioning / Subtitling","Voice Over","Video Services","Writing","Proof Reading","Medical Transcription",
+            "Medical Billing / Medical Coding","Dictation","App Translation","Software Solutions","Website Translation","Localization","CRM Solutions","Virtual Assistant",
+            "Customized APIs","Excel Services","Data research","Conversion Rate Optimization","Web designing","Website Solutions"};
 }
