@@ -20,9 +20,9 @@ public class ScenarioGenerator {
         if (index == scenarioSize) {
             for (int j = 0; j < scenarioSize; j++) {
                 original.add(data[j] + ",");
-                System.out.print(data[j] + ",");
+                //System.out.print(data[j] + ",");
             }
-            System.out.println("");
+           // System.out.println("");
             return;
         }
 
