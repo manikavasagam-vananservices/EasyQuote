@@ -30,7 +30,7 @@ public class Trascription extends TestBase implements AppData {
         fileType = "Audio";//System.getProperty("fileType");
         ScenarioGenerator scenarioGenerator = new ScenarioGenerator();
         String[] services = new String[0];
-        if (fileType.equals("audio")) {
+        if (fileType.equals("Audio")) {
             services = audioTranscription;
         } else if (fileType.equals("video")) {
             services = videoTranscription;
@@ -51,7 +51,7 @@ public class Trascription extends TestBase implements AppData {
                     System.out.println("Tier : " + fileProcessing.getCellData(i, 1).toUpperCase());
                     System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
                     System.out.println("Content : " + fileProcessing.getCellData(i, 3));
-                    System.out.println("Unit : " + (int) fileProcessing.getNumericCellData(i, 4));
+                    System.out.println("Unit : " + fileProcessing.getNumericCellData(i, 4));
 
                     enterCustomerInfo();
                     easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 2));
@@ -111,6 +111,7 @@ public class Trascription extends TestBase implements AppData {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             takeSnapShot(driver,rand.nextInt(50)+".png");
         }
 
