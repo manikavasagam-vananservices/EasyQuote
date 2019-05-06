@@ -1,7 +1,7 @@
 package com.vanan.Common;
 
 public interface FilePaths {
-    public String screenshotParentPath = System.getProperty("user.dir") + "\\src\\screenshots\\";
+    public String screenshotParentPath = System.getProperty("user.dir") +  "//screenshots//";
     public String testDataParentPath = System.getProperty("user.dir") + "//src//test//resources//testdata//";
     // Basic price calculation(Transcription, Translation, Captioning, Typing)
     public String level1 = testDataParentPath + "EasyQuoteL1.xlsx";
