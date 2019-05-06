@@ -34,7 +34,7 @@ public interface EasyQuoteElements {
      */
     public String estimate = "//*[@id='file-info-rough']";
     public String uploadFiles = "//*[@id='file-info-upload']";
-    public String addFiles = "//*[@id='roughFiles']";
+    public String addFiles = "//*[@id='roughFiles']/a";
     public String uploadNewFiles = "//*[@id='uploadNewFiles']";
     public String fileSpecifications = "file_specifications";
 
