@@ -33,6 +33,7 @@ public class EasyQuoteL4 extends TestBase {
             System.out.println("Content : " + fileProcessing.getCellData(i, 2));
             System.out.println("Pages : " + fileProcessing.getNumericCellData(i, 3));
             System.out.println("Unit Cost : " + fileProcessing.getFloatCellData(i, 4));
+            System.out.println("====================");
             driver.get(APP_URL1);
             enterCustomerInfo();
             easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 1));
@@ -100,6 +101,7 @@ public class EasyQuoteL4 extends TestBase {
             System.out.println("Content : " + fileProcessing.getCellData(i, 3));
             System.out.println("Pages : " + fileProcessing.getFloatCellData(i, 4));
             System.out.println("Unit Cost : " + fileProcessing.getFloatCellData(i, 5));
+            System.out.println("====================");
             driver.get(APP_URL1);
             enterCustomerInfo();
             easyQuotePage.clickTranslation();
