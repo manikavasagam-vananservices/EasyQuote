@@ -64,7 +64,7 @@ public class Trascription extends TestBase implements AppData {
 
         System.out.println("Total services : "+possibility+ " = Total scenarios : "+scenarios.size());
         if(multiScenarios) {
-            for (int j = start; j < end ; j++) {
+            for (int j = start; j <= end ; j++) {
                 String sheetName = scenarios.get(j).replace(",", "-");
                 performScenario(sheetName, j,multiScenarios,"");
             }
