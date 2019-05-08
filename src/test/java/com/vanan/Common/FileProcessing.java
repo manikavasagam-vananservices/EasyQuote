@@ -4,8 +4,9 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -40,6 +41,19 @@ public class FileProcessing {
             e.printStackTrace();
         }
     }
+
+    public void createExcelSheet(String fileName, String SheetName) {
+        try {
+            fileExtenstion = fileName.substring(fileName.lastIndexOf(".") + 1);
+            FileInputStream ExcelFile = new FileInputStream(fileName);
+            ExcelWBook = new XSSFWorkbook(ExcelFile);
+            ExcelWSheet = ExcelWBook.createSheet(SheetName);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public String getCellData(int RowNum, int ColNum) {
 
@@ -104,6 +118,30 @@ public class FileProcessing {
             } else if (fileExtenstion.equals("xls")) {
                 cell = sheet.getRow(RowNum).getCell(ColNum);
                 cell.setCellValue(Result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setCellHeaderData(String[] columnNames) {
+        try {
+            XSSFRow headerRow = ExcelWSheet.createRow(0);
+            for (int i = 0; i < columnNames.length; i++) {
+                Cell = headerRow.createCell(i);
+                Cell.setCellValue(columnNames[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setCellData(int RowNum, String[] columnNames) {
+        try {
+            XSSFRow headerRow = ExcelWSheet.createRow(RowNum);
+            for (int i = 0; i < columnNames.length; i++) {
+                Cell = headerRow.createCell(i);
+                Cell.setCellValue(columnNames[i]);
             }
         } catch (Exception e) {
             e.printStackTrace();

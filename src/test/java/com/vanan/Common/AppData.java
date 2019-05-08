@@ -24,4 +24,7 @@ public interface AppData {
     String[] othersOption = {"Translation","Transcription","Typing","Captioning / Subtitling","Voice Over","Video Services","Writing","Proof Reading","Medical Transcription",
             "Medical Billing / Medical Coding","Dictation","App Translation","Software Solutions","Website Translation","Localization","CRM Solutions","Virtual Assistant",
             "Customized APIs","Excel Services","Data research","Conversion Rate Optimization","Web designing","Website Solutions"};
+
+
+    String[] transcriptionFileHeading = {"Source","Tier","Purpose","Content","Unit","Base Price Status","Discount Status","Addional Services Status","SubTotal Status","Transaction Fee Status","Order Total Status","Order Value Status","OverAll Status"};
 }
