@@ -225,4 +225,15 @@ public class PriceCalculator implements Pricedetails {
         }
         return value;
     }
+
+    public double getSingleAdditionalPriceForTranscription(String services, double unit, String langauge,
+                                                           String timeCodeOption, String SpeakerOption, String mailingNotaryOption, String purpose,
+                                                           String fileType) {
+
+        return calculateTranscriptionAdditionalServices(services, unit, langauge,
+                timeCodeOption, SpeakerOption, mailingNotaryOption, purpose,
+                fileType);
+
+
+    }
 }

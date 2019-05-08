@@ -1,20 +1,15 @@
-package com.vanan.Business;
+package com.vanan.NewBusiness;
 
 import com.vanan.Common.AppData;
 import com.vanan.Common.TestBase;
 import com.vanan.POM.CRM_Dashboard;
 import com.vanan.POM.LoginPage;
 import org.openqa.selenium.Cookie;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class Login extends TestBase implements AppData {
-
-    @BeforeTest
+    
     public void configureBrowser() {
 
         setDriver();
@@ -49,7 +44,5 @@ public class Login extends TestBase implements AppData {
         }
     }
 
-    @Test
-    public void test() {}
-
 }
+

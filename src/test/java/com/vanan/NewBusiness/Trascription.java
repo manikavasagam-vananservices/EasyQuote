@@ -18,19 +18,36 @@ import java.util.Random;
  */
 public class Trascription extends TestBase implements AppData {
 
+    List<String> scenarios;
+    Random rand = new Random();
     private EasyQuotePage easyQuotePage;
     private FileProcessing fileProcessing;
     private String fileType;
-    List<String> scenarios;
-    Random rand = new Random();
+    private PriceCalculator priceCalculator;
+    private FileProcessing fileProcess;
+    @BeforeTest
+    public void LoginCRM() {
+        Login login = new Login();
+        login.configureBrowser();
+    }
 
     @Test(priority = 1)
     public void runTranscriptionTest() {
-        
+
+
+        fileType = System.getProperty("fileType");
+        int possibility = Integer.parseInt(System.getProperty("serviceCount"));
+        int start = Integer.parseInt(System.getProperty("start"));
+        int end = Integer.parseInt(System.getProperty("end"));
+        boolean multiScenarios = System.getProperty("multi").contains("yes");
+        String serviceNames = System.getProperty("serviceName");
+
         easyQuotePage = new EasyQuotePage(driver);
         fileProcessing = new FileProcessing();
-            fileType = System.getProperty("fileType");
         ScenarioGenerator scenarioGenerator = new ScenarioGenerator();
+        priceCalculator = new PriceCalculator();
+        fileProcessing.setExcelFile(transcription, service1);
+
         String[] services = new String[0];
         if (fileType.equals("Audio")) {
             services = audioTranscription;
@@ -42,86 +59,148 @@ public class Trascription extends TestBase implements AppData {
             services = scriptTranscription;
         }
 
-        int possibility =Integer.parseInt(System.getProperty("serviceCount"));
-        scenarios = scenarioGenerator.getScenarios(services, possibility);
-        PriceCalculator priceCalculator = new PriceCalculator();
-        fileProcessing.setExcelFile(transcription, service1);
-        
-            for (int j=0; j<scenarios.size();j++) {
-                System.out.println("======="+scenarios.get(j)+"=========");
-                for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
-                    try {
-                    System.out.println("Source : " + fileProcessing.getCellData(i, 0));
-                    System.out.println("Tier : " + fileProcessing.getCellData(i, 1).toUpperCase());
-                    System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
-                    System.out.println("Content : " + fileProcessing.getCellData(i, 3));
-                    System.out.println("Unit : " + fileProcessing.getFloatCellData(i, 4));
 
-                    enterCustomerInfo();
-                    easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 2));
-                    easyQuotePage.selectContent(fileProcessing.getCellData(i, 3));
-                    easyQuotePage.selectWebsite("vananservices.com");
-                    easyQuotePage.clickCallYes();
-                    waitingTime(1);
-                    easyQuotePage.clickAddFiles();
-                    easyQuotePage.setSingleFileDetail(fileType, service1 + i, fileProcessing.getCellData(i, 0),
-                            fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
-                            priceCalculator.getTranscriptionFee(fileProcessing.getCellData(i, 1)) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
-                    waitingTime(5);
-                    String[] singleScenario = scenarios.get(j).split(",");
-                    boolean languageStatus = false;
+        scenarios = scenarioGenerator.getScenarios(services, possibility);
+
+        System.out.println("Total services : "+possibility+ " = Total scenarios : "+scenarios.size());
+        if(multiScenarios) {
+            for (int j = start; j < end ; j++) {
+                String sheetName = scenarios.get(j).replace(",", "-");
+                performScenario(sheetName, j,multiScenarios,"");
+            }
+        } else {
+            performScenario(serviceNames, 0,multiScenarios,serviceNames);
+        }
+
+    }
+
+    private void performScenario(String sheetName, int j, boolean multiScenario, String serviceName) {
+
+        fileProcess = new FileProcessing();
+        fileProcess.createExcelSheet(transcription, sheetName + j);
+        fileProcess.setCellHeaderData(transcriptionFileHeading);
+        if(multiScenario) {
+            System.out.println("=======" + scenarios.get(j) + "=========");
+        } else{
+            System.out.println("=======" + serviceName + "=========");
+        }
+
+        String BasePrice = null;
+        String Discount = null;
+        String addionalServices = null;
+        String subTotal = null;
+        String TransactionFee = null;
+        String OrderTotal = null;
+        String OrderValue = null;
+        String overAllStatus = null;
+        for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
+            try {
+                System.out.println("Source : " + fileProcessing.getCellData(i, 0));
+                System.out.println("Tier : " + fileProcessing.getCellData(i, 1).toUpperCase());
+                System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
+                System.out.println("Content : " + fileProcessing.getCellData(i, 3));
+                System.out.println("Unit : " + fileProcessing.getFloatCellData(i, 4));
+
+                enterCustomerInfo();
+                easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 2));
+                easyQuotePage.selectContent(fileProcessing.getCellData(i, 3));
+                easyQuotePage.selectWebsite("vananservices.com");
+                easyQuotePage.clickCallYes();
+                waitingTime(1);
+                easyQuotePage.clickAddFiles();
+                easyQuotePage.setSingleFileDetail(fileType, service1 + i, fileProcessing.getCellData(i, 0),
+                        fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
+                        priceCalculator.getTranscriptionFee(fileProcessing.getCellData(i, 1)) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
+                waitingTime(5);
+                boolean languageStatus = false;
+                String[] singleScenario = new String[0];
+                if(multiScenario) {
+                    singleScenario = scenarios.get(j).split(",");
+
                     for (int k = 0; k < singleScenario.length; k++) {
                         selectAdditionalServices(singleScenario[k], 1, 1, 1, 1, fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2));
                         if (singleScenario[k].equals("US transcriber")) {
                             languageStatus = true;
                         }
                     }
-                    waitingTime(5);
-                    double basePrice = roundValues(priceCalculator.getTranscriptionTotalUnit(fileProcessing.getFloatCellData(i, 4),
-                            fileProcessing.getCellData(i, 1), fileProcessing.getCellData(i, 2),
-                            fileProcessing.getCellData(i, 0), languageStatus));
-                    double discount = roundValues(priceCalculator.getTranscriptionDiscount(
-                            fileProcessing.getCellData(i, 1), fileProcessing.getFloatCellData(i, 4),
-                            fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2),
-                            languageStatus));
-                    double additionalService = roundValues(priceCalculator.getAdditionalPriceForTranscription(singleScenario, fileProcessing.getFloatCellData(i, 4),
+                } else {
+                    selectAdditionalServices(serviceName, 1, 1, 1, 1, fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2));
+                    if (serviceName.equals("US transcriber")) {
+                        languageStatus = true;
+                    }
+                }
+                waitingTime(5);
+                double basePrice = roundValues(priceCalculator.getTranscriptionTotalUnit(fileProcessing.getFloatCellData(i, 4),
+                        fileProcessing.getCellData(i, 1), fileProcessing.getCellData(i, 2),
+                        fileProcessing.getCellData(i, 0), languageStatus));
+                double discount = roundValues(priceCalculator.getTranscriptionDiscount(
+                        fileProcessing.getCellData(i, 1), fileProcessing.getFloatCellData(i, 4),
+                        fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2),
+                        languageStatus));
+                double additionalService = 0;
+                if(multiScenario) {
+                    additionalService = roundValues(priceCalculator.getAdditionalPriceForTranscription(singleScenario, fileProcessing.getFloatCellData(i, 4),
                             fileProcessing.getCellData(i, 0), getTimecodeOption(1), getSpeakerCountOption(1),
                             getMailingNotaryOption(1), fileProcessing.getCellData(i, 2), fileType));
-                    double subtotal = roundValues((basePrice - discount) + additionalService);
-                    double transactionFee = roundValues(subtotal * priceCalculator.getTransactionFee());
-                    double orderTotal = roundValues(subtotal + transactionFee);
-                    String BasePrice = checkStatus(easyQuotePage.getBasePriceValue(),
-                            basePrice, "BasePrice");
-                    String Discount = checkStatus(easyQuotePage.getDiscountValue(), discount, "Discount");
-                    String addionalServices = checkStatus(easyQuotePage.getAdditionalServicePriceValue(),
-                            additionalService, "Additional Services");
-                    String subTotal = checkStatus(easyQuotePage.getSubTotalPriceValue(),
-                            subtotal, "Sub Total");
-                    String TransactionFee = checkStatus(easyQuotePage.getTransactionPriceValue(),
-                            transactionFee, "Transaction Fee");
-                    String OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(),
-                            orderTotal, "Order Total");
-                    String OrderValue = checkStatus(easyQuotePage.getOrderValue(),
-                            orderTotal, "Order Value");
-                    String overAllStatus;
-                    if (BasePrice.equals("Pass") && subTotal.equals("Pass") && TransactionFee.equals("Pass")
-                            && Discount.equals("Pass") && addionalServices.equals("Pass")
-                            && OrderTotal.equals("Pass") && OrderValue.equals("Pass")) {
-                        overAllStatus = "Pass";
+                } else {
+                    additionalService = roundValues(priceCalculator.getSingleAdditionalPriceForTranscription(serviceName, fileProcessing.getFloatCellData(i, 4),
+                            fileProcessing.getCellData(i, 0), getTimecodeOption(1), getSpeakerCountOption(1),
+                            getMailingNotaryOption(1), fileProcessing.getCellData(i, 2), fileType));
+                }
 
-                    } else {
-                        overAllStatus = "Fail";
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    takeSnapShot(driver,rand.nextInt(3600)+".png");
+                double subtotal = roundValues((basePrice - discount) + additionalService);
+                double transactionFee = roundValues(subtotal * priceCalculator.getTransactionFee());
+                double orderTotal = roundValues(subtotal + transactionFee);
+                BasePrice = checkStatus(easyQuotePage.getBasePriceValue(),
+                        basePrice, "BasePrice");
+                Discount = checkStatus(easyQuotePage.getDiscountValue(), discount, "Discount");
+                addionalServices = checkStatus(easyQuotePage.getAdditionalServicePriceValue(),
+                        additionalService, "Additional Services");
+                subTotal = checkStatus(easyQuotePage.getSubTotalPriceValue(),
+                        subtotal, "Sub Total");
+                TransactionFee = checkStatus(easyQuotePage.getTransactionPriceValue(),
+                        transactionFee, "Transaction Fee");
+                OrderTotal = checkStatus(easyQuotePage.getOrderTotalValue(),
+                        orderTotal, "Order Total");
+                OrderValue = checkStatus(easyQuotePage.getOrderValue(),
+                        orderTotal, "Order Value");
+
+                if (BasePrice.equals("Pass") && subTotal.equals("Pass") && TransactionFee.equals("Pass")
+                        && Discount.equals("Pass") && addionalServices.equals("Pass")
+                        && OrderTotal.equals("Pass") && OrderValue.equals("Pass")) {
+                    overAllStatus = "Pass";
+
+                } else {
+                    overAllStatus = "Fail";
                 }
-                    driver.get(APP_URL1);
-                }
-                 System.out.println("=======Completed"+(j+1)+"=========");
+                String[] datas = {fileProcessing.getCellData(i, 0),
+                        fileProcessing.getCellData(i, 1).toUpperCase(), fileProcessing.getCellData(i, 2),
+                        fileProcessing.getCellData(i, 3), fileProcessing.getFloatCellData(i, 4) + "",
+                        BasePrice,
+                        Discount, addionalServices, subTotal,
+                        TransactionFee, OrderTotal, OrderValue,
+                        overAllStatus};
+                setData(fileProcess, datas, i);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                takeSnapShot(driver, rand.nextInt(50) + ".png");
+                String[] datas = {fileProcessing.getCellData(i, 0),
+                        fileProcessing.getCellData(i, 1).toUpperCase(), fileProcessing.getCellData(i, 2),
+                        fileProcessing.getCellData(i, 3), fileProcessing.getFloatCellData(i, 4) + "",
+                        BasePrice,
+                        Discount, addionalServices, subTotal,
+                        TransactionFee, OrderTotal, OrderValue,
+                        overAllStatus};
+                setData(fileProcess, datas, i);
             }
-      
+            driver.get(APP_URL1);
+        }
+        fileProcess.writeFileContent(transcription);
+        System.out.println("=======Completed" + (j + 1) + "=========");
+    }
 
+    private void setData(FileProcessing fileProcessing, String[] datas, int row) {
+        fileProcessing.setCellData(row, datas);
     }
 
     void selectAdditionalServices(String name, int mposition, int tposition, int sposition, int oposition,
@@ -134,7 +213,7 @@ public class Trascription extends TestBase implements AppData {
                 easyQuotePage.clickQualityCheck();
                 break;
             case "Certificate":
-                easyQuotePage.clickCertificate();
+                easyQuotePage.enterCertificateDetails("Testing");
                 break;
             case "Verbatim":
                 if (language.equals("English")) {
