@@ -69,9 +69,11 @@ public interface EasyQuoteElements {
     public String embeded = "embeded";
     public String standaloneFileFormat = "standalone-file-format";
     public String audience = "audience";
-    public String needTranslation = "need-translation";
-    public String needScript = "need-script";
-
+    public String needTranslation = "translation-yes";
+    public String needScript = "transcription-yes";
+    public String needCaptioning = "captioning-yes";
+    public String needHandWritten = "handWritten-yes";
+    public String formattingYes = "formatting-yes";
     /**
      * Turnaround Time [EST]
      */

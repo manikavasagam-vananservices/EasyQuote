@@ -51,5 +51,8 @@ public interface FilePaths {
 
     //Transcription
     public String transcription = testDataParentPath + "Transcription.xlsx";
-
+    //Translation
+    public String translation = testDataParentPath + "Translation.xlsx";
+    //Typing
+    public String typing = testDataParentPath + "Typing.xlsx";
 }
