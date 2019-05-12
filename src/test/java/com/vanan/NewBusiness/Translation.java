@@ -2,7 +2,6 @@ package com.vanan.NewBusiness;
 
 import com.vanan.Common.*;
 import com.vanan.POM.EasyQuotePage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -11,12 +10,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Transcription service
+ * Translation service
  * Basic Price calculation (No Tat)
  * Individual and Multiscenario
- * "Notarization","Additional Acceptance Testing","Certificate","Verbatim","Mailing and Notary","US transcriber","Time code","Speaker Count", "Other Services","Need Translation","Need Captioning"
+ * "Notarization","Additional Acceptance Testing","Certificate","Mailing and Notary","Time code","Speaker Count", "Other Services","Need Transcription","Need Captioning", "Hand Written"
  */
-public class Trascription extends TestBase implements AppData {
+public class Translation extends TestBase implements AppData {
 
     List<String> scenarios;
     Random rand = new Random();
@@ -25,6 +24,7 @@ public class Trascription extends TestBase implements AppData {
     private String fileType;
     private PriceCalculator priceCalculator;
     private FileProcessing fileProcess;
+
     @BeforeTest
     public void LoginCRM() {
         Login login = new Login();
@@ -32,7 +32,7 @@ public class Trascription extends TestBase implements AppData {
     }
 
     @Test(priority = 1)
-    public void runTranscriptionTest() {
+    public void runTranslationTest() {
 
 
         fileType = System.getProperty("fileType");
@@ -46,30 +46,29 @@ public class Trascription extends TestBase implements AppData {
         fileProcessing = new FileProcessing();
         ScenarioGenerator scenarioGenerator = new ScenarioGenerator();
         priceCalculator = new PriceCalculator();
-        fileProcessing.setExcelFile(transcription, service1);
+        fileProcessing.setExcelFile(translation, service2);
 
         String[] services = new String[0];
         if (fileType.equals("Audio")) {
-            services = audioTranscription;
+            services = audioTranslation;
         } else if (fileType.equals("Video")) {
-            services = videoTranscription;
+            services = videoTranslation;
         } else if (fileType.equals("Document")) {
-            services = documentTranscription;
+            services = documentTranslation;
         } else if (fileType.equals("Script")) {
-            services = scriptTranscription;
+            services = scriptTranslation;
         }
-
 
         scenarios = scenarioGenerator.getScenarios(services, possibility);
 
-        System.out.println("Total services : "+possibility+ " = Total scenarios : "+scenarios.size());
-        if(multiScenarios) {
-            for (int j = start; j <= end ; j++) {
+        System.out.println("Total services : " + possibility + " = Total scenarios : " + scenarios.size());
+        if (multiScenarios) {
+            for (int j = start; j <= end; j++) {
                 String sheetName = scenarios.get(j).replace(",", "-");
-                performScenario(sheetName, j,multiScenarios,"");
+                performScenario(sheetName, j, multiScenarios, "");
             }
         } else {
-            performScenario(serviceNames, 0,multiScenarios,serviceNames);
+            performScenario(serviceNames, 0, multiScenarios, serviceNames);
         }
 
     }
@@ -77,14 +76,14 @@ public class Trascription extends TestBase implements AppData {
     private void performScenario(String sheetName, int j, boolean multiScenario, String serviceName) {
 
         fileProcess = new FileProcessing();
-        fileProcess.createExcelSheet(transcription, sheetName + j);
-        fileProcess.setCellHeaderData(transcriptionFileHeading);
-        if(multiScenario) {
+        fileProcess.createExcelSheet(translation, sheetName + j);
+        fileProcess.setCellHeaderData(translationFileHeading);
+        if (multiScenario) {
             System.out.println("=======" + scenarios.get(j) + "=========");
-        } else{
+        } else {
             System.out.println("=======" + serviceName + "=========");
         }
-
+        double unit = 0;
         String BasePrice = null;
         String Discount = null;
         String addionalServices = null;
@@ -96,56 +95,61 @@ public class Trascription extends TestBase implements AppData {
         for (int i = 1; i <= fileProcessing.getRowUsed(); i++) {
             try {
                 System.out.println("Source : " + fileProcessing.getCellData(i, 0));
-                System.out.println("Tier : " + fileProcessing.getCellData(i, 1).toUpperCase());
-                System.out.println("Purpose : " + fileProcessing.getCellData(i, 2));
-                System.out.println("Content : " + fileProcessing.getCellData(i, 3));
-                System.out.println("Unit : " + fileProcessing.getFloatCellData(i, 4));
-
+                System.out.println("Target : " + fileProcessing.getCellData(i, 1));
+                System.out.println("Tier : " + fileProcessing.getCellData(i, 2).toUpperCase());
+                System.out.println("Purpose : " + fileProcessing.getCellData(i, 3));
+                System.out.println("Content : " + fileProcessing.getCellData(i, 4));
+                System.out.println("Length : " + fileProcessing.getFloatCellData(i, 5));
+                System.out.println("Pages : " + fileProcessing.getFloatCellData(i, 6));
                 enterCustomerInfo();
-                easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 2));
-                easyQuotePage.selectContent(fileProcessing.getCellData(i, 3));
+                easyQuotePage.clickTranslation();
+                easyQuotePage.selectPurpose(fileProcessing.getCellData(i, 3));
+                easyQuotePage.selectContent(fileProcessing.getCellData(i, 4));
                 easyQuotePage.selectWebsite("vananservices.com");
                 easyQuotePage.clickCallYes();
                 waitingTime(1);
                 easyQuotePage.clickAddFiles();
-                easyQuotePage.setSingleFileDetail(fileType, service1 + i, fileProcessing.getCellData(i, 0),
-                        fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
-                        priceCalculator.getTranscriptionFee(fileProcessing.getCellData(i, 1)) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
+
+                if (fileType.equals("Audio") || fileType.equals("Video")) {
+                    easyQuotePage.setSingleFileDetail(fileType, service2 + i, fileProcessing.getCellData(i, 0),
+                            fileProcessing.getCellData(i, 1), fileProcessing.getFloatCellData(i, 5) + "",
+                            priceCalculator.getTranslationFee(fileProcessing.getCellData(i, 2), fileType) + "",
+                            "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 7));
+                    unit = fileProcessing.getFloatCellData(i, 5);
+                } else if (fileType.equals("Document")) {
+                    easyQuotePage.setSingleFileDetail(fileType, service2 + i, fileProcessing.getCellData(i, 0),
+                            fileProcessing.getCellData(i, 1), fileProcessing.getFloatCellData(i, 6) + "",
+                            priceCalculator.getTranslationFee(fileProcessing.getCellData(i, 2), fileType) + "",
+                            "", "Test", 1, 0);
+                    unit = fileProcessing.getFloatCellData(i, 6);
+                }
+
                 waitingTime(5);
-                boolean languageStatus = false;
+
                 String[] singleScenario = new String[0];
-                if(multiScenario) {
+                if (multiScenario) {
                     singleScenario = scenarios.get(j).split(",");
 
                     for (int k = 0; k < singleScenario.length; k++) {
-                        selectAdditionalServices(singleScenario[k], 1, 1, 1, 1, fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2));
-                        if (singleScenario[k].equals("US transcriber")) {
-                            languageStatus = true;
-                        }
+                        selectAdditionalServices(singleScenario[k], 1, 1, 1, 1, fileProcessing.getCellData(i, 1), fileProcessing.getCellData(i, 2));
                     }
                 } else {
-                    selectAdditionalServices(serviceName, 1, 1, 1, 1, fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2));
-                    if (serviceName.equals("US transcriber")) {
-                        languageStatus = true;
-                    }
+                    selectAdditionalServices(serviceName, 1, 1, 1, 1, fileProcessing.getCellData(i, 1), fileProcessing.getCellData(i, 2));
                 }
                 waitingTime(5);
-                double basePrice = roundValues(priceCalculator.getTranscriptionTotalUnit(fileProcessing.getFloatCellData(i, 4),
-                        fileProcessing.getCellData(i, 1), fileProcessing.getCellData(i, 2),
-                        fileProcessing.getCellData(i, 0), languageStatus));
-                double discount = roundValues(priceCalculator.getTranscriptionDiscount(
-                        fileProcessing.getCellData(i, 1), fileProcessing.getFloatCellData(i, 4),
-                        fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2),
-                        languageStatus));
+                double basePrice = roundValues(priceCalculator.getTranslationTotalUnit(unit,
+                        fileProcessing.getCellData(i, 2), fileType));
+                double discount = roundValues(priceCalculator.getTranslationDiscount(
+                        fileProcessing.getCellData(i, 2), unit, fileType));
                 double additionalService = 0;
-                if(multiScenario) {
-                    additionalService = roundValues(priceCalculator.getAdditionalPriceForTranscription(singleScenario, fileProcessing.getFloatCellData(i, 4),
-                            fileProcessing.getCellData(i, 0), getTimecodeOption(1), getSpeakerCountOption(1),
-                            getMailingNotaryOption(1), fileProcessing.getCellData(i, 2), fileType));
+                if (multiScenario) {
+                    additionalService = roundValues(priceCalculator.getAdditionalPriceForTranslation(singleScenario, unit,
+                            fileProcessing.getCellData(i, 1), getTimecodeOption(1), getSpeakerCountOption(1),
+                            getMailingNotaryOption(1), fileType));
                 } else {
-                    additionalService = roundValues(priceCalculator.getSingleAdditionalPriceForTranscription(serviceName, fileProcessing.getFloatCellData(i, 4),
-                            fileProcessing.getCellData(i, 0), getTimecodeOption(1), getSpeakerCountOption(1),
-                            getMailingNotaryOption(1), fileProcessing.getCellData(i, 2), fileType));
+                    additionalService = roundValues(priceCalculator.getSingleAdditionalPriceForTranslation(serviceName, unit,
+                            fileProcessing.getCellData(i, 1), getTimecodeOption(1), getSpeakerCountOption(1),
+                            getMailingNotaryOption(1), fileType));
                 }
 
                 double subtotal = roundValues((basePrice - discount) + additionalService);
@@ -173,29 +177,24 @@ public class Trascription extends TestBase implements AppData {
                 } else {
                     overAllStatus = "Fail";
                 }
-                String[] datas = {fileProcessing.getCellData(i, 0),
-                        fileProcessing.getCellData(i, 1).toUpperCase(), fileProcessing.getCellData(i, 2),
-                        fileProcessing.getCellData(i, 3), fileProcessing.getFloatCellData(i, 4) + "",
-                        BasePrice,
-                        Discount, addionalServices, subTotal,
-                        TransactionFee, OrderTotal, OrderValue,
-                        overAllStatus};
+                String[] datas = {fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 1),
+                            fileProcessing.getCellData(i, 1).toUpperCase(), fileProcessing.getCellData(i, 2),
+                            fileProcessing.getCellData(i, 3), unit + "", BasePrice, Discount, addionalServices,
+                            subTotal, TransactionFee, OrderTotal, OrderValue, overAllStatus};
+
                 setData(fileProcess, datas, i);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 takeSnapShot(driver, rand.nextInt(50) + ".png");
-                String[] datas = {fileProcessing.getCellData(i, 0),
+                String[] datas = {fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 1),
                         fileProcessing.getCellData(i, 1).toUpperCase(), fileProcessing.getCellData(i, 2),
-                        fileProcessing.getCellData(i, 3), fileProcessing.getFloatCellData(i, 4) + "",
-                        BasePrice,
-                        Discount, addionalServices, subTotal,
-                        TransactionFee, OrderTotal, OrderValue,
-                        overAllStatus};
+                        fileProcessing.getCellData(i, 3), unit + "", BasePrice, Discount, addionalServices,
+                        subTotal, TransactionFee, OrderTotal, OrderValue, overAllStatus};
                 setData(fileProcess, datas, i);
             }
-            driver.get(APP_URL1);
+           driver.get(APP_URL1);
         }
-        fileProcess.writeFileContent(transcription);
+        fileProcess.writeFileContent(translation);
         System.out.println("=======Completed" + (j + 1) + "=========");
     }
 
@@ -204,48 +203,51 @@ public class Trascription extends TestBase implements AppData {
     }
 
     void selectAdditionalServices(String name, int mposition, int tposition, int sposition, int oposition,
-           String language, String purpose) {
+                                  String language, String purpose) {
         switch (name) {
             case "Notarization":
                 easyQuotePage.clickNotarization();
                 break;
+
             case "Additional Acceptance Testing":
                 easyQuotePage.clickQualityCheck();
                 break;
+
             case "Certificate":
                 easyQuotePage.enterCertificateDetails("Testing");
                 break;
-            case "Verbatim":
-                if (language.equals("English")) {
-                    easyQuotePage.clickVerbatim();
-                }
-                break;
+
             case "Mailing and Notary":
                 easyQuotePage.enterMailingHardCopyDetails("AUTOMATION", "TESTING", "562 Spencer",
                         "", "", "", "01071", getMailingNotaryOption(mposition));
                 break;
-            case "US transcriber":
-                if (language.equals("English") && purpose.equals("General")) {
-                    easyQuotePage.clickUSTranscriber();
-                }
-                break;
+
             case "Time code":
                 easyQuotePage.selectTimecode(getTimecodeOption(tposition));
                 break;
+
             case "Speaker Count":
                 easyQuotePage.selectSpeakerCount(getSpeakerCountOption(sposition));
                 break;
+
             case "Other Services":
                 easyQuotePage.enterOthers(getOtherOption(oposition));
                 break;
-            case "Need Translation":
-                easyQuotePage.clickIHaveTranslation();
+
+            case "Need Transcription":
+                easyQuotePage.clickIHaveTranscript();
                 break;
+
             case "Need Captioning":
                 easyQuotePage.clickIHaveCaptioning();
                 break;
+
+            case "Hand Written":
+                easyQuotePage.clickNeedHandWritten();
+                break;
         }
     }
+
     private String getMailingNotaryOption(int position) {
         return mailingOption[position];
     }
@@ -266,7 +268,7 @@ public class Trascription extends TestBase implements AppData {
 
         easyQuotePage.enterCustomerInfo("automation.vananservices@gmail.com", "AUTOMATION", "TESTING", "9876543210", "India");
     }
-    
+
     @AfterClass
     public void teardown() {
         tearDown();

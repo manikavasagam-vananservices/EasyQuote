@@ -1,9 +1,6 @@
 package com.vanan.POM;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -332,6 +329,12 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
         selectDropDownByVText(otherServicesElement, option);
     }
 
+    public void enterOthers(String content) {
+
+        enterTestBoxValuesWithClear(otherServicesElement, content);
+        otherServicesElement.sendKeys(Keys.RETURN);
+    }
+
     public void clickUSTranscriber() {
 
         clickJSElement(js, nativeEmt);
@@ -345,6 +348,21 @@ public class EasyQuotePage extends AccessingElement implements EasyQuoteElements
     public void clickIHaveTranslation() {
 
         clickJSElement(js, needTranslation);
+    }
+
+    public void clickIHaveCaptioning() {
+
+        clickJSElement(js, needCaptioning);
+    }
+
+    public void clickNeedHandWritten() {
+
+        clickJSElement(js, needHandWritten);
+    }
+
+    public void clickFormattingYes() {
+
+        clickJSElement(js, formattingYes);
     }
 
 
