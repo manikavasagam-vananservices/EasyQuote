@@ -177,11 +177,12 @@ public class PriceCalculator implements Pricedetails {
     }
 
 
-    public double getTypingFee(String language, String purpose, boolean status) {
+    public double getTypingFee(String language, String purpose, String serviceName) {
 
         double value = 0;
         if (language.equals(supportedTypingLang[0])) {
-            if (purpose.equals("General") && status) {
+
+            if (purpose.equals("General") && serviceName.contains("Formatting")) {
                 value = typingTierFees[1];
             } else {
                 value = typingTierFees[0];
@@ -190,12 +191,9 @@ public class PriceCalculator implements Pricedetails {
                 value = typingTierFees[2];
             }
         } else if (findLanguage(language)) {
-            if (purpose.equals("General") && status) {
-                value = typingTierFees[3];
-            } else {
-                value = typingTierFees[2];
-            }
-            if (purpose.equals("Legal") && status) {
+
+            if ((purpose.equals("General")&& serviceName.equals("Formatting"))
+                    || (purpose.equals("Legal") && serviceName.equals("Formatting"))) {
                 value = typingTierFees[3];
             } else {
                 value = typingTierFees[2];
@@ -206,15 +204,15 @@ public class PriceCalculator implements Pricedetails {
         return value;
     }
 
-    public double getTypingTotalUnitFee(String language, String purpose, boolean status, double unit) {
+    public double getTypingTotalUnitFee(String language, String purpose, String serviceName, double unit) {
 
-        return (unit * getTypingFee(language, purpose, status));
+        return (unit * getTypingFee(language, purpose, serviceName));
     }
 
     private boolean findLanguage(String language) {
         boolean value = false;
         for (int i = 1; i < supportedTypingLang.length; i++) {
-            if (language.equals(supportedTypingLang[i])) {
+            if (language.contains(supportedTypingLang[i])) {
                 value = true;
                 break;
             }

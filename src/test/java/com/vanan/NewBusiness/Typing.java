@@ -34,7 +34,6 @@ public class Typing extends TestBase implements AppData {
     @Test(priority = 1)
     public void runTypingTest() {
 
-
         fileType = System.getProperty("fileType");
         int possibility = Integer.parseInt(System.getProperty("serviceCount"));
         int start = Integer.parseInt(System.getProperty("start"));
@@ -110,24 +109,35 @@ public class Typing extends TestBase implements AppData {
                 easyQuotePage.clickCallYes();
                 waitingTime(1);
                 easyQuotePage.clickAddFiles();
-
-                if (fileType.equals("Audio") || fileType.equals("Video")) {
-                    easyQuotePage.setSingleFileDetail(fileType, service1 + i, fileProcessing.getCellData(i, 0),
-                            fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
-                            priceCalculator.getTypingFee(fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2), false) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
-                } else if (fileType.equals("Document")) {
-                    if ((i % 2 == 0)) {
-                        formatting = true;
+                String[] singleScenario = new String[0];
+                String formatingStatus="";
+                boolean serviceStatus = false;
+                if (multiScenario) {
+                    singleScenario = scenarios.get(j).split(",");
+                    for (int k = 0; k < singleScenario.length; k++) {
+                        if (singleScenario[k].equals("Formatting")) {
+                            formatingStatus = singleScenario[k];
+                            serviceStatus = true;
+                            break;
+                        }
                     }
-                    easyQuotePage.setSingleFileDetail(fileType, service1 + i, fileProcessing.getCellData(i, 0),
+                    easyQuotePage.setSingleFileDetail(fileType, service4 + i, fileProcessing.getCellData(i, 0),
                             fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
-                            priceCalculator.getTypingFee(fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2), formatting) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
+                            priceCalculator.getTypingFee(fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2), formatingStatus) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
+                } else if (fileType.equals("Document")) {
+                    if (serviceName.equals("Formatting")) {
+                        formatingStatus = serviceName;
+                    }
+
+                    easyQuotePage.setSingleFileDetail(fileType, service4 + i, fileProcessing.getCellData(i, 0),
+                            fileProcessing.getCellData(i, 0), fileProcessing.getFloatCellData(i, 4) + "",
+                            priceCalculator.getTypingFee(fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 2), formatingStatus) + "", "", "Test", 1, (int) fileProcessing.getFloatCellData(i, 5));
                 }
                 waitingTime(5);
 
-                String[] singleScenario = new String[0];
+
                 if (multiScenario) {
-                    singleScenario = scenarios.get(j).split(",");
+
 
                     for (int k = 0; k < singleScenario.length; k++) {
                         selectAdditionalServices(singleScenario[k], 1, 1);
@@ -136,10 +146,13 @@ public class Typing extends TestBase implements AppData {
                     selectAdditionalServices(serviceName, 1, 1);
                 }
                 waitingTime(5);
-                double basePrice = roundValues(priceCalculator.getTypingTotalUnitFee(fileProcessing.getCellData(i, 0),
-                        fileProcessing.getCellData(i, 2), formatting, fileProcessing.getFloatCellData(i, 4)));
+                double basePrice = roundValues(fileProcessing.getFloatCellData(i, 4) * priceCalculator.getTypingFee(fileProcessing.getCellData(i, 0),
+                        fileProcessing.getCellData(i, 2), formatingStatus));
                 double discount = 0;
-                double additionalService = roundValues(priceCalculator.getMailingNotary(getMailingNotaryOption(1)));
+                double additionalService = 0;
+                if(serviceName.equals("Mailing and Notary")|| serviceStatus) {
+                    additionalService = roundValues(priceCalculator.getMailingNotary(getMailingNotaryOption(1)));
+                }
                 double subtotal = roundValues((basePrice - discount) + additionalService);
                 double transactionFee = roundValues(subtotal * priceCalculator.getTransactionFee());
                 double orderTotal = roundValues(subtotal + transactionFee);
@@ -235,7 +248,7 @@ public class Typing extends TestBase implements AppData {
         easyQuotePage.enterCustomerInfo("automation.vananservices@gmail.com", "AUTOMATION", "TESTING", "9876543210", "India");
     }
 
-    @AfterClass
+  //  @AfterClass
     public void teardown() {
         tearDown();
     }
