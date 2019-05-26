@@ -213,7 +213,9 @@ public class Trascription extends TestBase implements AppData {
                 easyQuotePage.clickQualityCheck();
                 break;
             case "Certificate":
-                easyQuotePage.enterCertificateDetails("Testing");
+                if (purpose.equals("Legal")) {
+                    easyQuotePage.enterCertificateDetails("Testing");
+                }
                 break;
             case "Verbatim":
                 if (language.equals("English")) {
