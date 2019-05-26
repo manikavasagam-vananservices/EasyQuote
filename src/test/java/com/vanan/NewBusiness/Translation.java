@@ -178,9 +178,9 @@ public class Translation extends TestBase implements AppData {
                     overAllStatus = "Fail";
                 }
                 String[] datas = {fileProcessing.getCellData(i, 0), fileProcessing.getCellData(i, 1),
-                            fileProcessing.getCellData(i, 1).toUpperCase(), fileProcessing.getCellData(i, 2),
-                            fileProcessing.getCellData(i, 3), unit + "", BasePrice, Discount, addionalServices,
-                            subTotal, TransactionFee, OrderTotal, OrderValue, overAllStatus};
+                        fileProcessing.getCellData(i, 1).toUpperCase(), fileProcessing.getCellData(i, 2),
+                        fileProcessing.getCellData(i, 3), unit + "", BasePrice, Discount, addionalServices,
+                        subTotal, TransactionFee, OrderTotal, OrderValue, overAllStatus};
 
                 setData(fileProcess, datas, i);
             } catch (Exception ex) {
@@ -192,7 +192,7 @@ public class Translation extends TestBase implements AppData {
                         subTotal, TransactionFee, OrderTotal, OrderValue, overAllStatus};
                 setData(fileProcess, datas, i);
             }
-           driver.get(APP_URL1);
+            driver.get(APP_URL1);
         }
         fileProcess.writeFileContent(translation);
         System.out.println("=======Completed" + (j + 1) + "=========");
@@ -214,7 +214,9 @@ public class Translation extends TestBase implements AppData {
                 break;
 
             case "Certificate":
-                easyQuotePage.enterCertificateDetails("Testing");
+                if (purpose.equals("Legal")) {
+                    easyQuotePage.enterCertificateDetails("Testing");
+                }
                 break;
 
             case "Mailing and Notary":
